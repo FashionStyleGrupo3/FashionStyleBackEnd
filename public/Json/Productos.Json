@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "nombre": "Estilo Urbano",
+    "precio": "$199.900",
+    "imagen": "assets/img1.jpg",
+    "descripcion": "Descripción detallada del producto Estilo Urbano."
+  },
+  {
+    "id": 2,
+    "nombre": "R10 - Classic",
+    "precio": "$199.900",
+    "imagen": "assets/img2.jpg",
+    "descripcion": "Descripción detallada del producto R10 - Classic."
+  },
+  {
+    "id": 3,
+    "nombre": "LM10 - Modern",
+    "precio": "$199.900",
+    "imagen": "assets/img3.jpg",
+    "descripcion": "Descripción detallada del producto LM10 - Modern."
+  },
+  {
+    "id": 4,
+    "nombre": "NJR - Street",
+    "precio": "$199.900",
+    "imagen": "assets/img4.jpg",
+    "descripcion": "Descripción detallada del producto NJR - Street."
+  },
+  {
+    "id": 5,
+    "nombre": "KM7 - Speed",
+    "precio": "$199.900",
+    "imagen": "assets/img5.jpg",
+    "descripcion": "Descripción detallada del producto KM7 - Speed."
+  },
+  {
+    "id": 6,
+    "nombre": "KM7 - Gold",
+    "precio": "$199.900",
+    "imagen": "assets/img6.jpg",
+    "descripcion": "Descripción detallada del producto KM7 - Gold."
+  }
+]

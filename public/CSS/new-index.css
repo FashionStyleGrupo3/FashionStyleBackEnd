@@ -1,0 +1,487 @@
+/* =============================================================================
+   NEW-INDEX.CSS - Artistic Campaign Hero
+   Fashion Style - Luxury Editorial Composition
+   ============================================================================= */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Canvas ─── */
+.fs-art {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #faf8f6;
+}
+
+/* ─── Background composition ─── */
+.fs-bg-layer {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 35%, rgba(255,20,147,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 70%, rgba(255,20,147,0.02) 0%, transparent 45%),
+        radial-gradient(ellipse at 80% 60%, rgba(240,230,220,0.3) 0%, transparent 50%),
+        linear-gradient(168deg, #ffffff 0%, #fdf6f8 20%, #faf5f0 55%, #f8f4ee 100%);
+    z-index: 0;
+}
+
+/* ─── Glow orbs ─── */
+.fs-glow-orb {
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(100px);
+}
+
+.fs-glow-1 {
+    top: 0;
+    left: -5%;
+    width: 55%;
+    height: 55%;
+    background: radial-gradient(circle, rgba(255,20,147,0.04) 0%, transparent 70%);
+}
+
+.fs-glow-2 {
+    bottom: -10%;
+    right: -5%;
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(circle, rgba(255,182,193,0.03) 0%, transparent 70%);
+}
+
+.fs-glow-3 {
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vmin;
+    height: 70vmin;
+    background: radial-gradient(circle, rgba(255,20,147,0.025) 0%, transparent 60%);
+}
+
+/* ─── Watermark ─── */
+.fs-master {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(10rem, 22vw, 30rem);
+    font-weight: 900;
+    color: rgba(0,0,0,0.015);
+    letter-spacing: 0.12em;
+    pointer-events: none;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.fs-script {
+    position: absolute;
+    bottom: 12%;
+    right: 6%;
+    z-index: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 9rem);
+    font-style: italic;
+    color: rgba(255,20,147,0.025);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ─── Decorative geometry ─── */
+.fs-geo {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.fs-geo-bar {
+    top: 22%;
+    left: 4%;
+    width: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,20,147,0.06), transparent);
+}
+
+.fs-geo-dot {
+    top: 15%;
+    right: 10%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,20,147,0.08);
+}
+
+.fs-geo-ring {
+    bottom: 20%;
+    left: 8%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,20,147,0.04);
+}
+
+/* ─── Logo ─── */
+.fs-emblem {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    opacity: 0;
+    animation: fsIn 0.8s ease 0.4s forwards;
+    text-decoration: none;
+}
+
+.fs-emblem-img {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.03));
+}
+
+/* ─── Reel ─── */
+.fs-reel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* ─── Frame ─── */
+.fs-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    will-change: opacity;
+}
+
+.fs-frame.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+/* ─── Artboard ─── */
+.fs-artboard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+    transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+}
+
+.fs-frame.active .fs-artboard {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* ─── Halo (glow behind product) ─── */
+.fs-halo {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,20,147,0.07) 0%, rgba(255,182,193,0.03) 30%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── Shadow disk (floating effect) ─── */
+.fs-shadow-disk {
+    position: absolute;
+    bottom: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: fsShadow 8s ease-in-out infinite;
+}
+
+/* ─── Product object ─── */
+.fs-object {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    max-height: 50vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    z-index: 1;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.06));
+    animation: fsFloat 8s ease-in-out infinite;
+    will-change: transform;
+    /* Blend the image edges with background */
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 60%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 60%, transparent 100%);
+}
+
+/* ─── Aura (light reflection on product) ─── */
+.fs-aura {
+    position: absolute;
+    top: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+/* ─── Caption ─── */
+.fs-caption {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+    max-width: 520px;
+    width: 90%;
+    opacity: 0;
+    transform: translateX(-50%) translateY(15px);
+    transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+}
+
+.fs-frame.active .fs-caption {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.fs-label {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    color: #ff1493;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.fs-headline {
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    font-weight: 900;
+    color: #0a0a0a;
+    line-height: 1.08;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+}
+
+.fs-sub {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 400;
+    color: #6b6b6b;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fs-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff1493, #d4006a);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 14px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 8px 28px rgba(255,20,147,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.fs-action::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 35%, rgba(255,255,255,0.1) 100%);
+    pointer-events: none;
+}
+
+.fs-action:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(255,20,147,0.3);
+}
+
+.fs-action:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255,20,147,0.15);
+}
+
+/* ─── Nav arrows ─── */
+.fs-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(0,0,0,0.03);
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    animation: fsFade 0.6s ease 1s forwards;
+}
+
+.fs-nav:hover {
+    background: #ff1493;
+    color: #fff;
+    border-color: #ff1493;
+    box-shadow: 0 6px 20px rgba(255,20,147,0.2);
+    transform: translateY(-50%) scale(1.06);
+}
+
+.fs-nav-prev { left: 14px; }
+.fs-nav-next { right: 14px; }
+
+/* ─── Track (pips) ─── */
+.fs-track {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.fs-pip {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fs-pip.active {
+    width: 24px;
+    height: 5px;
+    border-radius: 3px;
+    background: #ff1493;
+    box-shadow: 0 0 10px rgba(255,20,147,0.15);
+}
+
+.fs-pip:not(.active):hover {
+    background: rgba(255,20,147,0.4);
+    transform: scale(1.3);
+}
+
+/* ─── Animations ─── */
+@keyframes fsFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fsShadow {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) scale(0.85); opacity: 0.5; }
+}
+
+@keyframes fsIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fsFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ─── Responsive ─── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .fs-object { max-height: 45vh; }
+    .fs-artboard { max-width: 500px; }
+    .fs-headline { font-size: clamp(1.3rem, 2.8vw, 2rem); }
+    .fs-emblem-img { height: 56px; }
+    .fs-emblem { top: 22px; }
+    .fs-caption { bottom: 10%; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .fs-object { max-height: 42vh; }
+    .fs-artboard { max-width: 100%; padding: 0 20px; }
+    .fs-caption { bottom: 8%; max-width: 400px; }
+    .fs-headline { font-size: clamp(1.2rem, 3.5vw, 1.6rem); }
+    .fs-sub { font-size: 11px; margin-bottom: 16px; }
+    .fs-action { font-size: 9px; padding: 12px 28px; }
+    .fs-emblem-img { height: 44px; }
+    .fs-emblem { top: 16px; }
+    .fs-nav { width: 32px; height: 32px; }
+    .fs-nav svg { width: 14px; height: 14px; }
+    .fs-nav-prev { left: 8px; }
+    .fs-nav-next { right: 8px; }
+    .fs-master { font-size: clamp(6rem, 16vw, 12rem); }
+    .fs-script { font-size: clamp(2.5rem, 5vw, 5rem); bottom: 8%; }
+    .fs-geo-bar { top: 15%; width: 15%; }
+    .fs-geo-ring { width: 50px; height: 50px; bottom: 15%; }
+    .fs-track { bottom: 14px; }
+    .fs-pip.active { width: 20px; }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .fs-object { max-height: 38vh; }
+    .fs-caption { bottom: 6%; }
+    .fs-headline { font-size: clamp(1rem, 4.5vw, 1.3rem); }
+    .fs-sub { font-size: 10px; margin-bottom: 12px; }
+    .fs-action { font-size: 8px; padding: 10px 22px; letter-spacing: 2px; }
+    .fs-emblem-img { height: 34px; }
+    .fs-emblem { top: 12px; }
+    .fs-nav { width: 28px; height: 28px; }
+    .fs-nav svg { width: 12px; height: 12px; }
+}
