@@ -4,22 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Catalogo extends Model
 {
-    protected $table = "categorias";
+    protected $table = "catalogos";
 
-    protected $primaryKey = "id_categoria";
+    protected $primaryKey = "id_catalogo";
 
     public $timestamps = false;
 
     protected $fillable = [
         'nombre',
         'descripcion',
-        'activa'
+        'activo'
     ];
 
     public function productos()
     {
-        return $this->hasMany(Producto::class, 'categoria_id');
+        return $this->hasMany(Producto::class, 'catalogo_id');
     }
 }

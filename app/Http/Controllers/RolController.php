@@ -7,59 +7,36 @@ use Illuminate\Http\Request;
 
 class RolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Rol::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        return Rol::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Rol $rol)
+    public function show($id)
     {
-        //
+        return Rol::findOrFail($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Rol $rol)
+    public function update(Request $request, $id)
     {
-        //
+        $rol = Rol::findOrFail($id);
+
+        $rol->update($request->all());
+
+        return $rol;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Rol $rol)
+    public function destroy($id)
     {
-        //
-    }
+        Rol::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Rol $rol)
-    {
-        //
+        return response()->json([
+            "mensaje" => "Rol eliminado"
+        ]);
     }
 }
