@@ -1,0 +1,37 @@
+{
+  "documentTypes": [
+    { "val": "cc", "label": "Cédula de Ciudadanía" },
+    { "val": "ti", "label": "Tarjeta de Identidad" },
+    { "val": "ce", "label": "Cédula de Extranjería" },
+    { "val": "pp", "label": "Pasaporte" }
+  ],
+  "locations": {
+    "Amazonas": ["Leticia", "Puerto Nariño"],
+    "Antioquia": ["Medellín", "Bello", "Itagüí", "Envigado", "Apartadó"],
+    "Arauca": ["Arauca", "Arauquita"],
+    "Atlántico": ["Barranquilla", "Soledad", "Malambo"],
+    "Bogotá D.C.": ["Bogotá"],
+    "Bolívar": ["Cartagena", "Magangué"],
+    "Boyacá": ["Tunja", "Duitama", "Sogamoso"],
+    "Caldas": ["Manizales", "La Dorada"],
+    "Caquetá": ["Florencia"],
+    "Casanare": ["Yopal"],
+    "Cauca": ["Popayán"],
+    "Cesar": ["Valledupar"],
+    "Chocó": ["Quibdó"],
+    "Córdoba": ["Montería"],
+    "Cundinamarca": ["Soacha", "Facatativá", "Zipaquirá", "Chía"],
+    "Huila": ["Neiva", "Pitalito"],
+    "La Guajira": ["Riohacha", "Maicao"],
+    "Magdalena": ["Santa Marta"],
+    "Meta": ["Villavicencio"],
+    "Nariño": ["Pasto", "Tumaco"],
+    "Norte de Santander": ["Cúcuta", "Ocaña"],
+    "Quindío": ["Armenia"],
+    "Risaralda": ["Pereira"],
+    "Santander": ["Bucaramanga", "Floridablanca", "Barrancabermeja"],
+    "Sucre": ["Sincelejo"],
+    "Tolima": ["Ibagué"],
+    "Valle del Cauca": ["Cali", "Buenaventura", "Palmira", "Tuluá"]
+  }
+}

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/CSS2?family=Poppins:wght@400;600;700;800;900&display=swap');
+
+
+body {
+    margin: 0;
+     font-family: 'Montserrat', sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.contenedor {
+    width: 800px;
+    background: white;
+    border: 2px solid #ccc;
+}
+
+/* Barra */
+.barra {
+    display: flex;
+    align-items: center;
+    background: #d4a017;
+    padding: 10px;
+}
+
+.barra input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    font-size: 16px;
+}
+
+.icono {
+    margin-right: 10px;
+}
+
+/* Lista */
+.lista {
+    border-top: 1px solid #ccc;
+}
+
+.lista p {
+    margin: 0;
+    padding: 8px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.lista p:hover {
+    background: #f0f0f0;
+}
+
+/* Contenido inferior */
+.contenido {
+    display: flex;
+    border-top: 2px solid #ccc;
+}
+
+/* Cargando */
+.cargando {
+    width: 30%;
+    padding: 20px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+}
+
+/* Spinner animado */
+.spinner {
+    width: 80px;
+    height: 80px;
+    border: 8px solid #ddd;
+    border-top: 8px solid #d4a017;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Productos */
+.productos {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.card {
+    width: 150px;
+    text-align: center;
+}
+
+.img {
+    background: #d4a017;
+    color: white;
+    padding: 20px;
+    margin-bottom: 10px;
+}

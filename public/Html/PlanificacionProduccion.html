@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Style โ�� Planificaciรณn de Producciรณn</title>
+  <link rel="stylesheet" href="../CSS/PlanificacionProduccion.css">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+  <link rel="stylesheet" href="../CSS/asistente-ia.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-text">FASHION<span>Style</span></div>
+      <div class="logo-sub">by collection</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-item"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></div>
+      <div class="nav-item" id="nav-productos"><i class="ti ti-shirt"></i><span>Productos</span></div>
+      <div class="nav-item" id="nav-inventario"><i class="ti ti-stack-2"></i><span>Inventario</span></div>
+      <div class="nav-item"><i class="ti ti-arrow-bar-to-down"></i><span>Entradas</span></div>
+      <div class="nav-item"><i class="ti ti-arrow-bar-to-up"></i><span>Salidas</span></div>
+      <div class="nav-item"><i class="ti ti-arrows-exchange"></i><span>Movimientos</span></div>
+      <div class="nav-item"><i class="ti ti-building-store"></i><span>Proveedores</span></div>
+      <div class="nav-item active"><i class="ti ti-calculator"></i><span>Planificaciรณn</span></div>
+      <div class="nav-section">Reportes</div>
+      <div class="nav-item"><i class="ti ti-chart-bar"></i><span>Reportes</span></div>
+      <div class="nav-item"><i class="ti ti-history"></i><span>Historial</span></div>
+      <div class="nav-item"><i class="ti ti-settings"></i><span>Configuraciรณn</span></div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item logout-item"><i class="ti ti-logout"></i><span>Cerrar sesiรณn</span></div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menรบ">
+          <i class="ti ti-menu-2"></i>
+        </button>
+        <div>
+          <div class="page-title">Planificaciรณn de Producciรณn</div>
+          <div class="page-subtitle">Sistema profesional de planificaciรณn, costos, inventario y rentabilidad.</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="notif-btn" aria-label="Notificaciones"><i class="ti ti-bell"></i></button>
+        <div class="user-chip">
+          <div class="avatar" id="user-avatar">A</div>
+          <div>
+            <div class="user-name" id="user-name">Admin</div>
+            <div class="user-role" id="user-role">Administrador</div>
+          </div>
+          <i class="ti ti-chevron-down" style="font-size:14px;color:#999"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <i class="ti ti-home"></i><span>/</span><span>Planificaciรณn de Producciรณn</span>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('calcular')">
+        <i class="ti ti-calculator"></i> Nueva Planificaciรณn
+      </button>
+      <button class="tab-btn" onclick="switchTab('formula')">
+        <i class="ti ti-settings"></i> Fรณrmulas / Recetas
+      </button>
+      <button class="tab-btn" onclick="switchTab('historial')">
+        <i class="ti ti-history"></i> Historial
+      </button>
+      <button class="tab-btn" onclick="switchTab('dashboard')">
+        <i class="ti ti-chart-bar"></i> Dashboard
+      </button>
+    </div>
+
+    <div class="content">
+      <!-- ===== TAB CALCULAR ===== -->
+      <div id="panel-calcular">
+        <!-- Toggle Simulaciรณn / Confirmaciรณn -->
+        <div class="toggle-group">
+          <button class="toggle-option active" id="toggle-simular" onclick="setModoCalculo('simular')">
+            <i class="ti ti-eye"></i> Solo simular cรกlculo
+          </button>
+          <button class="toggle-option" id="toggle-confirmar" onclick="setModoCalculo('confirmar')">
+            <i class="ti ti-circle-check"></i> Confirmar producciรณn
+          </button>
+        </div>
+
+        <!-- Formulario principal -->
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--pink"><i class="ti ti-calculator"></i></div>
+            <div class="section-title">Datos del pedido</div>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Producto a fabricar <span class="req">*</span></label>
+              <select class="inp" id="calc-producto" onchange="onProductoChange()">
+                <option value="">Selecciona un producto</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tipo de cรกlculo <span class="req">*</span></label>
+              <select class="inp" id="calc-tipo">
+                <option value="unidad">Por unidad</option>
+                <option value="docena">Por docena</option>
+                <option value="caja">Por caja</option>
+                <option value="lote">Por lote</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="form-group">
+              <label>Cantidad solicitada <span class="req">*</span></label>
+              <input class="inp" id="calc-cantidad" type="number" placeholder="Ej: 50" min="0.01" step="1">
+            </div>
+            <div class="form-group">
+              <label>Precio de venta <span class="req">*</span></label>
+              <div class="inp-group">
+                <span class="inp-prefix">$</span>
+                <input class="inp" id="calc-precio" type="number" placeholder="0.00" min="0" step="0.01">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Descuento (%)</label>
+              <div class="inp-group">
+                <input class="inp" id="calc-descuento" type="number" placeholder="0" min="0" max="100" step="0.01" value="0">
+                <span class="inp-prefix">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="form-group">
+              <label>IVA (%)</label>
+              <div class="inp-group">
+                <input class="inp" id="calc-iva" type="number" placeholder="19" min="0" max="100" step="0.01" value="19">
+                <span class="inp-prefix">%</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Desperdicio esperado (%)</label>
+              <div class="inp-group">
+                <input class="inp" id="calc-desperdicio" type="number" placeholder="5" min="0" max="100" step="0.01" value="0">
+                <span class="inp-prefix">%</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Margen de ganancia deseado (%)</label>
+              <div class="inp-group">
+                <input class="inp" id="calc-margen" type="number" placeholder="30" min="0" max="100" step="0.01" value="0">
+                <span class="inp-prefix">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Fecha estimada de producciรณn</label>
+              <input class="inp" id="calc-fecha-prod" type="date">
+            </div>
+            <div class="form-group">
+              <label>Fecha de entrega</label>
+              <input class="inp" id="calc-fecha-entrega" type="date">
+            </div>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Cliente (opcional)</label>
+              <input class="inp" id="calc-cliente" type="text" placeholder="Nombre del cliente">
+            </div>
+            <div class="form-group">
+              <label>Observaciones</label>
+              <input class="inp" id="calc-observaciones" type="text" placeholder="Notas del pedido">
+            </div>
+          </div>
+        </div>
+
+        <!-- Costos adicionales -->
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--amber"><i class="ti ti-coin"></i></div>
+            <div class="section-title">Costos adicionales</div>
+          </div>
+          <div class="form-row cols-4">
+            <div class="form-group">
+              <label>Transporte</label>
+              <div class="inp-group"><span class="inp-prefix">$</span><input class="inp" id="calc-transporte" type="number" placeholder="0" min="0" step="0.01" value="0"></div>
+            </div>
+            <div class="form-group">
+              <label>Empaque</label>
+              <div class="inp-group"><span class="inp-prefix">$</span><input class="inp" id="calc-empaque" type="number" placeholder="0" min="0" step="0.01" value="0"></div>
+            </div>
+            <div class="form-group">
+              <label>Etiquetas</label>
+              <div class="inp-group"><span class="inp-prefix">$</span><input class="inp" id="calc-etiquetas" type="number" placeholder="0" min="0" step="0.01" value="0"></div>
+            </div>
+            <div class="form-group">
+              <label>Mano de obra</label>
+              <div class="inp-group"><span class="inp-prefix">$</span><input class="inp" id="calc-mano-obra" type="number" placeholder="0" min="0" step="0.01" value="0"></div>
+            </div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Costo por hora de producciรณn</label>
+              <div class="inp-group"><span class="inp-prefix">$</span><input class="inp" id="calc-costo-hora" type="number" placeholder="0" min="0" step="0.01" value="0"></div>
+            </div>
+            <div class="form-group">
+              <label>Horas estimadas de trabajo</label>
+              <input class="inp" id="calc-horas" type="number" placeholder="0" min="0" step="0.5" value="0">
+            </div>
+          </div>
+        </div>
+
+        <!-- Botรณn calcular -->
+        <div class="btn-group">
+          <button class="btn-primary" id="btn-calcular" onclick="calcularPlanificacion()">
+            <i class="ti ti-calculator"></i> <span id="btn-calcular-text">Calcular Planificaciรณn</span>
+          </button>
+          <button class="btn-outline" onclick="calcularProduccionMaxima()">
+            <i class="ti ti-chart-line"></i> Ver producciรณn mรกxima posible
+          </button>
+        </div>
+
+        <!-- Resultados -->
+        <div id="resultados" style="display:none;">
+
+          <!-- Alerta de inventario -->
+          <div id="alerta-faltante" style="display:none; background:#fff5f5; border:1px solid #fecaca; border-radius:12px; padding:20px; margin-bottom:20px;">
+            <div style="display:flex; align-items:center; gap:10px; color:#dc2626; font-weight:600; font-size:15px; margin-bottom:12px;">
+              <i class="ti ti-alert-triangle" style="font-size:20px;"></i>
+              <span>Inventario insuficiente โ�� Materiales faltantes</span>
+            </div>
+            <div id="faltante-lista"></div>
+          </div>
+
+          <!-- Resumen Ejecutivo -->
+          <div class="resumen-ejecutivo" id="resumen-ejecutivo"></div>
+
+          <!-- Producciรณn mรกxima -->
+          <div id="max-prod-container" style="display:none;"></div>
+
+          <!-- Tabla de materiales -->
+          <div class="form-card">
+            <div class="section-header">
+              <div class="section-icon section-icon--amber"><i class="ti ti-stack-2"></i></div>
+              <div class="section-title">Detalle de materiales requeridos</div>
+            </div>
+            <div class="table-responsive">
+              <table class="calc-table">
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Unidad</th>
+                    <th>Consumo Unitario</th>
+                    <th>Cant. Requerida</th>
+                    <th>Disponible</th>
+                    <th>Faltante</th>
+                    <th>Costo Unit.</th>
+                    <th>Costo Total</th>
+                    <th>Proveedor</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-materiales"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Lista de compras -->
+          <div class="form-card" id="compras-container" style="display:none;">
+            <div class="section-header">
+              <div class="section-icon section-icon--red"><i class="ti ti-shopping-cart"></i></div>
+              <div class="section-title">Lista de compras necesarias</div>
+            </div>
+            <div id="compras-lista"></div>
+            <div class="compra-total" id="compra-total"></div>
+          </div>
+
+          <!-- Costos -->
+          <div class="form-card">
+            <div class="section-header">
+              <div class="section-icon section-icon--green"><i class="ti ti-coin"></i></div>
+              <div class="section-title">Desglose de costos</div>
+            </div>
+            <div class="form-row cols-2" style="gap:20px;">
+              <div class="resumen-grid" style="flex:1;">
+                <div class="resumen-item"><span class="resumen-label">Materiales</span><span class="resumen-val" id="res-costo-mat">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Mano de obra</span><span class="resumen-val" id="res-costo-mo">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Transporte</span><span class="resumen-val" id="res-costo-trans">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Empaque</span><span class="resumen-val" id="res-costo-emp">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Etiquetas</span><span class="resumen-val" id="res-costo-etq">$0.00</span></div>
+              </div>
+              <div class="resumen-grid" style="flex:1;">
+                <div class="resumen-item"><span class="resumen-label">Costo operativo</span><span class="resumen-val" id="res-costo-op">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Costo indirecto</span><span class="resumen-val" id="res-costo-ind">$0.00</span></div>
+                <div class="resumen-item" style="border-bottom:2px solid var(--border); padding-bottom:10px;"><span class="resumen-label" style="font-weight:700;">Costo total fabricaciรณn</span><span class="resumen-val" id="res-costo-total" style="font-size:18px;color:var(--primary);">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Costo por unidad</span><span class="resumen-val" id="res-costo-und">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Costo por docena</span><span class="resumen-val" id="res-costo-doc">$0.00</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ingresos -->
+          <div class="form-card">
+            <div class="section-header">
+              <div class="section-icon section-icon--blue"><i class="ti ti-trending-up"></i></div>
+              <div class="section-title">Ingresos proyectados</div>
+            </div>
+            <div class="form-row cols-2" style="gap:20px;">
+              <div class="resumen-grid" style="flex:1;">
+                <div class="resumen-item"><span class="resumen-label">Precio de venta</span><span class="resumen-val" id="res-precio">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Ingreso bruto</span><span class="resumen-val" id="res-ing-bruto">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Descuento</span><span class="resumen-val" id="res-descuento">$0.00 (0%)</span></div>
+              </div>
+              <div class="resumen-grid" style="flex:1;">
+                <div class="resumen-item"><span class="resumen-label">Subtotal</span><span class="resumen-val" id="res-subtotal">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">IVA</span><span class="resumen-val" id="res-iva">$0.00 (0%)</span></div>
+                <div class="resumen-item" style="border-bottom:2px solid var(--border); padding-bottom:10px;"><span class="resumen-label" style="font-weight:700;">Ingreso neto</span><span class="resumen-val" id="res-ing-net" style="font-size:18px;color:var(--success);">$0.00</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ganancias -->
+          <div class="form-card">
+            <div class="section-header">
+              <div class="section-icon section-icon--purple"><i class="ti ti-chart-bar"></i></div>
+              <div class="section-title">Anรกlisis de rentabilidad</div>
+            </div>
+            <div class="form-row cols-2" style="gap:20px;">
+              <div class="resumen-grid" style="flex:1;">
+                <div class="resumen-item"><span class="resumen-label">Ganancia bruta</span><span class="resumen-val" id="res-gan-bruta" style="font-weight:700;">$0.00</span></div>
+                <div class="resumen-item"><span class="resumen-label">Ganancia neta</span><span class="resumen-val" id="res-gan-neta" style="font-weight:700;color:var(--success);">$0.00</span></div>
+              </div>
+              <div class="resumen-grid" style="flex:1;">
+                <div class="resumen-item"><span class="resumen-label">Margen de utilidad</span><span class="resumen-val" id="res-margen-val">0%</span></div>
+                <div class="resumen-item"><span class="resumen-label">Rentabilidad</span><span class="resumen-val" id="res-rentabilidad">0%</span></div>
+                <div class="resumen-item"><span class="resumen-label">Punto de equilibrio</span><span class="resumen-val" id="res-punto-eq">0 unidades</span></div>
+              </div>
+            </div>
+            <div id="margen-alerta" style="display:none; margin-top:12px; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:500;"></div>
+          </div>
+
+          <!-- Botones de acciรณn -->
+          <div class="btn-group" id="resultados-actions">
+            <button class="btn-success" id="btn-confirmar-prod" onclick="confirmarProduccion()" style="display:none;">
+              <i class="ti ti-circle-check"></i> Confirmar producciรณn y descontar inventario
+            </button>
+            <button class="btn-primary" onclick="guardarSimulacion()">
+              <i class="ti ti-device-floppy"></i> Guardar simulaciรณn
+            </button>
+            <button class="btn-outline" onclick="exportarResultados('pdf')">
+              <i class="ti ti-file-text"></i> Exportar PDF
+            </button>
+            <button class="btn-outline" onclick="exportarResultados('excel')">
+              <i class="ti ti-table"></i> Exportar Excel
+            </button>
+            <button class="btn-outline" onclick="exportarResultados('csv')">
+              <i class="ti ti-file-spreadsheet"></i> Exportar CSV
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB Fร�RMULA ===== -->
+      <div id="panel-formula" style="display:none;">
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--amber"><i class="ti ti-settings"></i></div>
+            <div class="section-title">Configurar fรณrmula de producciรณn (receta)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Producto <span class="req">*</span></label>
+            <select class="inp" id="form-producto" onchange="cargarFormula()">
+              <option value="">Selecciona un producto</option>
+            </select>
+          </div>
+
+          <div style="margin:16px 0;">
+            <button class="btn-outline" onclick="agregarItemFormula()">
+              <i class="ti ti-plus"></i> Agregar material a la fรณrmula
+            </button>
+          </div>
+
+          <div id="formula-container">
+            <p style="color:var(--text-secondary); font-size:13px;">Selecciona un producto para configurar su receta de producciรณn.</p>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn-primary" onclick="guardarFormula()">
+              <i class="ti ti-device-floppy"></i> Guardar fรณrmula
+            </button>
+            <span id="form-mensaje" style="font-size:13px; color:var(--text-secondary); align-self:center;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB HISTORIAL ===== -->
+      <div id="panel-historial" style="display:none;">
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--blue"><i class="ti ti-history"></i></div>
+            <div class="section-title">Historial de planificaciones</div>
+          </div>
+
+          <div class="filtros-bar">
+            <div class="form-group">
+              <label>Producto</label>
+              <select class="inp" id="hist-producto">
+                <option value="">Todos</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Estado</label>
+              <select class="inp" id="hist-estado">
+                <option value="">Todos</option>
+                <option value="simulado">Simulado</option>
+                <option value="confirmado">Confirmado</option>
+                <option value="en_produccion">En producciรณn</option>
+                <option value="completado">Completado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Desde</label>
+              <input class="inp" id="hist-fecha-desde" type="date">
+            </div>
+            <div class="form-group">
+              <label>Hasta</label>
+              <input class="inp" id="hist-fecha-hasta" type="date">
+            </div>
+            <div class="form-group">
+              <label>&nbsp;</label>
+              <button class="btn-primary" onclick="cargarHistorial()"><i class="ti ti-search"></i> Buscar</button>
+            </div>
+          </div>
+
+          <div id="historial-lista">
+            <div class="empty-state">
+              <i class="ti ti-history"></i>
+              <h3>Sin planificaciones</h3>
+              <p>Realiza un cรกlculo para ver el historial.</p>
+            </div>
+          </div>
+
+          <div id="historial-pagination" style="margin-top:16px; display:flex; gap:8px; justify-content:center;"></div>
+        </div>
+      </div>
+
+      <!-- ===== TAB DASHBOARD ===== -->
+      <div id="panel-dashboard" style="display:none;">
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--purple"><i class="ti ti-chart-bar"></i></div>
+            <div class="section-title">Dashboard de planificaciรณn</div>
+          </div>
+          <div id="dashboard-content">
+            <div class="empty-state">
+              <i class="ti ti-chart-bar"></i>
+              <h3>Cargando dashboard...</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Detalle</div>
+      <button class="modal-close" onclick="cerrarModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer">
+      <button class="btn-outline" onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <i id="toast-icon"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script src="../JS/PlanificacionProduccion.js"></script>
+<script src="../JS/asistente-ia.js"></script>
+</body>
+</html>
