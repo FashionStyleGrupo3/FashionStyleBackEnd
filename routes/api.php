@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\UsuarioController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
             'roles' => $roles,
         ];
     });
+    Route::get('cliente', [UsuarioController::class, 'index']);
     Route::middleware('role:admin')->group(function () {
         Route::post('/usuarios/{id}/asignar-rol', function (Request $request, $id) {
             $request->validate([
