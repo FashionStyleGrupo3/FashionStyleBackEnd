@@ -7,59 +7,60 @@ use Illuminate\Http\Request;
 
 class PromocionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Promocion::with(['producto', 'usuario'])->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $datos = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'tipo' => 'nullable|string|max:50',
+            'valor' => 'nullable|numeric|min:0',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'activa' => 'boolean',
+            'producto_id' => 'nullable|exists:productos,id_producto',
+            'usuario_id' => 'required|exists:usuarios,id_usuario',
+        ]);
+
+        $promocion = Promocion::create($datos);
+
+        return response()->json($promocion->load(['producto', 'usuario']), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Promocion $promocion)
     {
-        //
+        return $promocion->load(['producto', 'usuario']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Promocion $promocion)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Promocion $promocion)
     {
-        //
+        $datos = $request->validate([
+            'nombre' => 'sometimes|required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'tipo' => 'nullable|string|max:50',
+            'valor' => 'nullable|numeric|min:0',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'activa' => 'boolean',
+            'producto_id' => 'nullable|exists:productos,id_producto',
+            'usuario_id' => 'sometimes|required|exists:usuarios,id_usuario',
+        ]);
+
+        $promocion->update($datos);
+
+        return response()->json($promocion->load(['producto', 'usuario']));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Promocion $promocion)
     {
-        //
+        $promocion->delete();
+
+        return response()->json([
+            'mensaje' => 'Promoción eliminada correctamente',
+        ]);
     }
 }

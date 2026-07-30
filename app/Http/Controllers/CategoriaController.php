@@ -7,59 +7,48 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Categoria::with('productos')->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $datos = $request->validate([
+            'nombre' => 'required|string|max:50|unique:categorias,nombre',
+            'descripcion' => 'nullable|string',
+            'activa' => 'boolean',
+        ]);
+
+        $categoria = Categoria::create($datos);
+
+        return response()->json($categoria->load('productos'), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Categoria $categoria)
     {
-        //
+        return $categoria->load('productos');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categoria $categoria)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Categoria $categoria)
     {
-        //
+        $datos = $request->validate([
+            'nombre' => 'sometimes|required|string|max:50|unique:categorias,nombre,' . $categoria->id_categoria . ',id_categoria',
+            'descripcion' => 'nullable|string',
+            'activa' => 'boolean',
+        ]);
+
+        $categoria->update($datos);
+
+        return response()->json($categoria->load('productos'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->delete();
+
+        return response()->json([
+            'mensaje' => 'Categoría eliminada correctamente',
+        ]);
     }
 }
