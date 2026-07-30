@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Style — Registrar Material</title>
+  <link rel="stylesheet" href="../CSS/AgregarMateriales.css">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+  <link rel="stylesheet" href="../CSS/asistente-ia.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-text">FASHION<span>Style</span></div>
+        <div class="logo-sub">by collection</div>
+      </div>
+      <nav class="nav">
+        <div class="nav-item"><i class="ti ti-layout-dashboard" aria-hidden="true"></i><span>Dashboard</span></div>
+        <div class="nav-item" id="nav-productos"><i class="ti ti-shirt" aria-hidden="true"></i><span>Productos</span></div>
+        <div class="nav-item active" id="nav-inventario"><i class="ti ti-stack-2" aria-hidden="true"></i><span>Inventario</span></div>
+        <div class="nav-item"><i class="ti ti-arrow-bar-to-down" aria-hidden="true"></i><span>Entradas</span></div>
+        <div class="nav-item"><i class="ti ti-arrow-bar-to-up" aria-hidden="true"></i><span>Salidas</span></div>
+        <div class="nav-item"><i class="ti ti-arrows-exchange" aria-hidden="true"></i><span>Movimientos</span></div>
+        <div class="nav-item"><i class="ti ti-building-store" aria-hidden="true"></i><span>Proveedores</span></div>
+        <div class="nav-item" id="nav-calculadora"><i class="ti ti-calculator" aria-hidden="true"></i><span>Calculadora</span></div>
+        <div class="nav-section">Reportes</div>
+        <div class="nav-item"><i class="ti ti-chart-bar" aria-hidden="true"></i><span>Reportes</span></div>
+        <div class="nav-item"><i class="ti ti-bell" aria-hidden="true"></i><span>Alertas</span></div>
+        <div class="nav-item"><i class="ti ti-settings" aria-hidden="true"></i><span>Configuración</span></div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="nav-item logout-item"><i class="ti ti-logout" aria-hidden="true"></i><span>Cerrar sesión</span></div>
+      </div>
+    </aside>
+
+    <div class="main">
+
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" aria-label="Menú">
+            <i class="ti ti-menu-2" aria-hidden="true"></i>
+          </button>
+          <div>
+            <div class="page-title" id="page-title">Registrar Nuevo Material</div>
+            <div class="page-subtitle" id="page-subtitle">Completa la información para registrar un nuevo material en el inventario.</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="notif-btn" aria-label="Notificaciones">
+            <i class="ti ti-bell" aria-hidden="true"></i>
+          </button>
+          <div class="user-chip">
+            <div class="avatar">A</div>
+            <div>
+              <div class="user-name">Admin</div>
+              <div class="user-role">Administrador</div>
+            </div>
+            <i class="ti ti-chevron-down" aria-hidden="true" style="font-size:14px;color:#999"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="breadcrumb">
+        <i class="ti ti-home" aria-hidden="true"></i>
+        <span>/</span>
+        <a href="Inventario.html">Materiales</a>
+        <span>/</span>
+        <span>Registrar nuevo</span>
+      </div>
+
+      <div class="content" id="panel-material">
+        <p class="required-note">Los campos marcados con <span class="req">*</span> son obligatorios.</p>
+
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--pink">
+              <i class="ti ti-stack-2" aria-hidden="true"></i>
+            </div>
+            <div class="section-title">Información del Material</div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="form-group">
+              <label for="mat-nombre">Nombre del material <span class="req">*</span></label>
+              <input class="inp" id="mat-nombre" type="text" placeholder="Ej. Tela Algodón Beige" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="mat-categoria">Categoría <span class="req">*</span></label>
+              <input class="inp" id="mat-categoria" type="text" placeholder="Ej. Telas, Hilos, Cierres, Botones">
+            </div>
+            <div class="form-group">
+              <label for="mat-proveedor">Proveedor</label>
+              <input class="inp" id="mat-proveedor" type="text" placeholder="Ej. Textiles Premium">
+            </div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="form-group">
+              <label for="mat-unidad">Unidad de medida <span class="req">*</span></label>
+              <input class="inp" id="mat-unidad" type="text" placeholder="Ej. Metros, Unidades, Rollos, Conos">
+            </div>
+            <div class="form-group">
+              <label for="mat-costo">Costo unitario <span class="req">*</span></label>
+              <div class="inp-group">
+                <span class="inp-prefix">$</span>
+                <input class="inp" id="mat-costo" type="number" placeholder="0.00" min="0" step="0.01">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mat-stock-inicial">Stock inicial <span class="req">*</span></label>
+              <input class="inp" id="mat-stock-inicial" type="number" placeholder="0" min="0">
+            </div>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label for="mat-stock-min">Stock mínimo <span class="req">*</span></label>
+              <input class="inp" id="mat-stock-min" type="number" placeholder="0" min="0">
+            </div>
+            <div class="form-group">
+              <label for="mat-descripcion">Descripción <span class="label-optional">(opcional)</span></label>
+              <textarea class="inp" id="mat-descripcion" placeholder="Describe el material, sus características o usos..." maxlength="300"></textarea>
+              <div class="char-count" id="mat-char-count">0/300</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="section-header">
+            <div class="section-icon section-icon--amber">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+            </div>
+            <div class="section-title">
+              Información adicional <span class="section-badge">(opcional)</span>
+            </div>
+          </div>
+
+          <div class="form-row cols-4">
+            <div class="form-group">
+              <label for="mat-color">Color <span class="label-optional">(opcional)</span></label>
+              <input class="inp" id="mat-color" type="text" placeholder="Ej. Beige, Negro, Blanco">
+            </div>
+            <div class="form-group">
+              <label for="mat-composicion">Composición <span class="label-optional">(opcional)</span></label>
+              <input class="inp" id="mat-composicion" type="text" placeholder="Ej. 100% Algodón">
+            </div>
+            <div class="form-group">
+              <label for="mat-ancho">Ancho / Medida <span class="label-optional">(opcional)</span></label>
+              <input class="inp" id="mat-ancho" type="text" placeholder="Ej. 1.50 m, 2.80 m">
+            </div>
+            <div class="form-group">
+              <label for="mat-presentacion">Presentación <span class="label-optional">(opcional)</span></label>
+              <input class="inp" id="mat-presentacion" type="text" placeholder="Ej. Rollo, Cono, Unidad">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Imagen del material <span class="label-optional">(opcional)</span></label>
+            <div class="upload-zone" id="mat-upload-zone">
+              <input type="file" id="mat-file-input" accept="image/jpeg,image/png,image/webp">
+              <div id="mat-upload-content">
+                <div class="upload-icon"><i class="ti ti-cloud-upload" aria-hidden="true"></i></div>
+                <p class="upload-text">Arrastra una imagen aquí o</p>
+                <button class="upload-btn" id="mat-select-file-btn" type="button">Seleccionar archivo</button>
+                <p class="upload-hint">Formatos permitidos: JPG, PNG, WEBP. Tamaño máximo: 5MB</p>
+              </div>
+              <div id="mat-preview-content">
+                <img id="mat-preview-img" src="" alt="Vista previa del material">
+                <div id="mat-file-name"></div>
+                <button class="upload-btn" id="mat-change-file-btn" type="button">Cambiar imagen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <a href="Inventario.html" class="btn-cancel">Cancelar</a>
+        <div class="btn-actions">
+          <button class="btn-outline" id="btn-save-continue">
+            <i class="ti ti-device-floppy" aria-hidden="true"></i> Guardar y continuar
+          </button>
+          <button class="btn-primary" id="btn-save">
+            <i class="ti ti-device-floppy" aria-hidden="true"></i> Guardar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <i id="toast-icon" aria-hidden="true"></i>
+    <span id="toast-msg"></span>
+  </div>
+
+  <script src="../JS/AgregarMateriales.js"></script>
+  <script src="../JS/asistente-ia.js"></script>
+</body>
+</html>

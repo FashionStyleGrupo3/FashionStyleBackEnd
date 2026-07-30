@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito De Compra - FASHIONSTYLE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/Style.CSS">
+    <link rel="stylesheet" href="../CSS/miniCarrito.CSS">
+    <link rel="stylesheet" href="../CSS/Carrito.CSS">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+</head>
+<body>
+
+<!-- Contenedor del mini carrito (requerido por miniCarrito.js) -->
+<div id="id1"></div>
+
+<!-- HEADER — idéntico al de main.html -->
+<header>
+    <a href="VistaPrevia.html" class="logo-link">
+        <img src="../assets/logo.pp.png" alt="FashionStyle Logo" class="logo">
+    </a>
+
+    <div class="search-container">
+        <span class="search-icon"></span>
+        <input id="int-buscar" type="search" placeholder="Buscar productos...">
+        <button class="btn-buscar">🔍</button>
+    </div>
+
+    <div class="header-actions">
+
+        <a href="#" class="btn-carrito" title="Carrito">
+            🛒
+            <span class="cart-badge">0</span>
+        </a>
+
+        <a href="Login.html" class="btn-login" id="btnLogin">
+            <i class="fa-solid fa-user"></i>
+            Iniciar Sesión
+        </a>
+
+        <a href="Registro.html" class="btn-register" id="btnRegister">
+            <i class="fa-solid fa-user-plus"></i>
+            Registrarse
+        </a>
+
+        <div class="user-menu" id="userMenu">
+            <button type="button" class="user-trigger" id="userIconBtn" aria-label="Mi cuenta">
+                <span class="user-avatar-icon">👤</span>
+                <span class="user-text">
+                    <span class="user-greeting">
+                        Hola, <span id="userNombre"></span> 👋
+                    </span>
+                    <span class="user-email" id="userEmail"></span>
+                </span>
+                <span class="user-caret">▾</span>
+            </button>
+
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#" class="user-dropdown-item" id="btnLogout">
+                    Cerrar sesión
+                </a>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="carrito-main">
+
+    <section id="cart-large">
+        <div class="cart-title">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Tu Carrito
+        </div>
+        <p class="cart-subtitle">Revisa tus productos antes de continuar</p>
+
+        <div class="cart-table-head">
+            <span>Producto</span>
+            <span>Precio</span>
+            <span>Cantidad</span>
+            <span>Total</span>
+        </div>
+
+        <div class="envio-banner">
+            <i class="fa-solid fa-truck"></i>
+            <span>
+                <strong>Envío gratis</strong> en compras mayores a <strong>$50</strong>
+            </span>
+        </div>
+
+        <div id="cart-large-items"></div>
+
+        <div class="empty-state" id="empty-state">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <h3>Tu carrito está vacío</h3>
+            <p>¡Agrega tus productos favoritos y comienza a comprar!</p>
+            <a href="main.html" class="link-categorias">    Ir a comprar 
+            </a>
+        </div>
+    </section>
+
+    <aside class="cart-summary">
+        <div class="summary-box">
+            <h3>
+                Resumen de la compra
+                <i class="fa-solid fa-bag-shopping"></i>
+            </h3>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>IVA (13%)</span>
+                <span id="cart-iva">$0.00</span>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+
+            <div class="badge-seguro">
+                <i class="fa-solid fa-shield-halved"></i> Compra 100% segura
+            </div>
+
+            <a href="CarritoIngresoDePago.html" class="btn-proceder">
+                <i class="fa-solid fa-lock"></i> Proceder al pago
+            </a>
+
+            <button id="clear-cart" class="btn-vaciar">
+                <i class="fa-solid fa-trash"></i> Vaciar carrito
+            </button>
+        </div>
+
+        <div class="info-envio">
+            <i class="fa-solid fa-truck-fast"></i>
+            <div>
+                <strong>Envíos rápidos y seguros</strong>
+                <span>Recibe tu pedido en la puerta de tu casa.</span>
+            </div>
+        </div>
+    </aside>
+
+</main>
+
+<!-- TAMBIÉN TE PUEDE INTERESAR — cards inyectadas por CarritoSugerencias.js -->
+<section class="relacionados-carrito">
+    <h3>También te puede interesar</h3>
+    <div class="rel-carousel-wrapper">
+        <button class="btn-rel-arrow prev">
+            <i class="fa fa-chevron-left"></i>
+        </button>
+        <div class="rel-grid" id="sugerencias-grid">
+            <!-- Contenido cargado dinámicamente -->
+        </div>
+        <button class="btn-rel-arrow next">
+            <i class="fa fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <strong class="footer-logo">FASHION<em>Style</em></strong>
+            <p>Tu estilo, tu actitud. Descubre prendas únicas para momentos inolvidables.</p>
+            <div class="social-icons">
+                <a href="#">📷</a>
+                <a href="#">📘</a>
+                <a href="#">🎵</a>
+                <a href="#">📌</a>
+            </div>
+        </div>
+
+        <div>
+            <h4>Información</h4>
+            <ul>
+                <li><a href="#">Nosotros</a></li>
+                <li><a href="#">Envíos y entregas</a></li>
+                <li><a href="#">Cambios y devoluciones</a></li>
+                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="#">Política de privacidad</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Ayuda</h4>
+            <ul>
+                <li><a href="#">Preguntas frecuentes</a></li>
+                <li><a href="#">Guía de tallas</a></li>
+                <li><a href="#">Métodos de pago</a></li>
+                <li><a href="mailto:FASHIONSTYLE@GMAIL.COM">Contacto</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Suscríbete</h4>
+            <p class="newsletter-desc">Recibe novedades y ofertas exclusivas.</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Tu correo electrónico">
+                <button>➤</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 Fashion Style. Todos los derechos reservados. <span>♥</span>
+    </div>
+</footer>
+
+<script src="../JS/cartStorage.js"></script>
+<script src="../JS/miniCarrito.js"></script>
+<script src="../JS/CarritoGrande.js"></script>
+<script src="../JS/sesion.js"></script>
+
+</body>
+</html>

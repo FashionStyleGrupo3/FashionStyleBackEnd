@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario de Materiales - Fashion Style</title>
+  <link rel="stylesheet" href="../CSS/inventario.css">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+  <link rel="stylesheet" href="../CSS/asistente-ia.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="navbar-logo">
+      <span class="brand">FASHION<span class="brand-accent">Style</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="VistaPrevia.html">Vista Previa</a>
+      <a href="Inventario.html" class="active">Inventario</a>
+      <a href="AgregarMateriales.html">Agregar Material</a>
+      <a href="VistaPrevia.html" class="btn-volver">← Volver</a>
+    </div>
+  </nav>
+
+  <div class="page-bg"></div>
+
+  <main class="page-content">
+
+    <div class="page-header">
+      <h1>Manejo de Inventario de Materiales</h1>
+      <div class="underline-accent"></div>
+      <p>Administra y controla el inventario de materiales de producción</p>
+    </div>
+
+    <div class="inv-card">
+
+      <div class="inv-topbar">
+        <div class="inv-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <div>
+          <div class="inv-title">Manejo de inventario de materiales</div>
+          <div class="inv-subtitle">Administra y controla el inventario de materiales de producción</div>
+        </div>
+        <a href="AgregarMateriales.html" class="btn-registrar" id="btnAbrir"><span>+</span> Registrar material</a>
+      </div>
+
+      <div class="inv-stats">
+        <div class="stat-card">
+          <div class="stat-icon si-pink">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8"/></svg>
+          </div>
+          <div class="stat-label">Total materiales</div>
+          <div class="stat-val pink" id="stat-total">0</div>
+          <div class="stat-desc">En inventario</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          </div>
+          <div class="stat-label">Stock disponible</div>
+          <div class="stat-val green" id="stat-enstock">0</div>
+          <div class="stat-desc">Materiales disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-amber">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="stat-label">Stock bajo</div>
+          <div class="stat-val amber" id="stat-bajo">0</div>
+          <div class="stat-desc">Requieren reposición</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-red">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="stat-label">Sin stock</div>
+          <div class="stat-val red" id="stat-sin">0</div>
+          <div class="stat-desc">Agotados</div>
+        </div>
+      </div>
+
+      <div class="inv-controls">
+        <div class="search-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a9b0" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar material...">
+        </div>
+        <select class="filter-sel" id="filtroCategoria">
+          <option value="">Categoría</option>
+        </select>
+        <select class="filter-sel" id="filtroEstado">
+          <option value="">Estado</option>
+          <option value="En Stock">En Stock</option>
+          <option value="Stock Bajo">Stock Bajo</option>
+          <option value="Sin Stock">Sin Stock</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Categoría</th>
+              <th>Unidad</th>
+              <th>Stock disponible</th>
+              <th>Stock mínimo</th>
+              <th>Estado</th>
+              <th>Última actualización</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaBody"></tbody>
+        </table>
+
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><line x1="3.27" y1="6.96" x2="12" y2="12.01"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <div class="empty-title">Sin materiales aún</div>
+          <div class="empty-desc">Registra tu primer material con el botón de arriba</div>
+        </div>
+      </div>
+
+      <div class="inv-footer">
+        <span id="footerLabel">Sin materiales registrados</span>
+        <div class="paginacion" id="paginacion"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitulo">Editar material</div>
+          <div class="modal-sub">Actualiza los datos del material</div>
+        </div>
+        <button class="modal-close" id="btnCerrar" aria-label="Cerrar">&times;</button>
+      </div>
+
+      <input type="hidden" id="editIndex" value="-1">
+
+      <div class="field-group">
+        <label for="mNombre">Nombre del material *</label>
+        <input type="text" id="mNombre" placeholder="Ej: Tela algodón beige">
+      </div>
+
+      <div class="fields-row">
+        <div class="field-group">
+          <label for="mCategoria">Categoría *</label>
+          <input type="text" id="mCategoria" placeholder="Ej: Telas">
+        </div>
+        <div class="field-group">
+          <label for="mUnidad">Unidad de medida *</label>
+          <input type="text" id="mUnidad" placeholder="Ej: Metros">
+        </div>
+      </div>
+
+      <div class="fields-row">
+        <div class="field-group">
+          <label for="mStock">Stock disponible *</label>
+          <input type="number" id="mStock" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="field-group">
+          <label for="mMin">Stock mínimo *</label>
+          <input type="number" id="mMin" placeholder="0" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancelar" id="btnCancelar">Cancelar</button>
+        <button class="btn-guardar" id="btnGuardar">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../JS/inventario.js"></script>
+  <script src="../JS/asistente-ia.js"></script>
+</body>
+</html>
