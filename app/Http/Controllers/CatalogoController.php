@@ -7,59 +7,48 @@ use Illuminate\Http\Request;
 
 class CatalogoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Catalogo::with('productos')->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $datos = $request->validate([
+            'nombre' => 'required|string|max:255|unique:catalogos,nombre',
+            'descripcion' => 'nullable|string',
+            'activo' => 'boolean',
+        ]);
+
+        $catalogo = Catalogo::create($datos);
+
+        return response()->json($catalogo->load('productos'), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Catalogo $catalogo)
     {
-        //
+        return $catalogo->load('productos');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Catalogo $catalogo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Catalogo $catalogo)
     {
-        //
+        $datos = $request->validate([
+            'nombre' => 'sometimes|required|string|max:255|unique:catalogos,nombre,' . $catalogo->id_catalogo . ',id_catalogo',
+            'descripcion' => 'nullable|string',
+            'activo' => 'boolean',
+        ]);
+
+        $catalogo->update($datos);
+
+        return response()->json($catalogo->load('productos'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Catalogo $catalogo)
     {
-        //
+        $catalogo->delete();
+
+        return response()->json([
+            'mensaje' => 'Catálogo eliminado correctamente',
+        ]);
     }
 }
