@@ -13,82 +13,128 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        return Producto::with(['categoria', 'catalogo', 'variantes', 'imagenes'])->get();
+        try {
+            $productos = Producto::with(['categoria', 'catalogo', 'variantes', 'imagenes'])->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Productos obtenidos correctamente',
+                'data' => $productos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener productos: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function store(Request $request)
     {
-        $datos = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio_venta' => 'required|numeric|min:0',
-            'categoria_id' => 'nullable|exists:categorias,id_categoria',
-            'catalogo_id' => 'nullable|exists:catalogos,id_catalogo',
-            'activo' => 'boolean',
-            'publicado' => 'boolean',
+        try {
+            $datos = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'descripcion' => 'nullable|string',
+                'precio_venta' => 'required|numeric|min:0',
+                'categoria_id' => 'nullable|exists:categorias,id_categoria',
+                'catalogo_id' => 'nullable|exists:catalogos,id_catalogo',
+                'activo' => 'boolean',
+                'publicado' => 'boolean',
 
-            'variantes' => 'array',
-            'variantes.*.talla' => 'required_with:variantes|string|max:20',
-            'variantes.*.color' => 'required_with:variantes|string|max:50',
-            'variantes.*.stock' => 'integer|min:0',
-            'variantes.*.sku' => 'nullable|string|max:100|unique:productos_variantes,sku',
-        ]);
+                'variantes' => 'array',
+                'variantes.*.talla' => 'required_with:variantes|string|max:20',
+                'variantes.*.color' => 'required_with:variantes|string|max:50',
+                'variantes.*.stock' => 'integer|min:0',
+                'variantes.*.sku' => 'nullable|string|max:100|unique:productos_variantes,sku',
+            ]);
 
-        $producto = DB::transaction(function () use ($datos) {
-            $producto = Producto::create(collect($datos)->except('variantes')->toArray());
+            $producto = DB::transaction(function () use ($datos) {
+                $producto = Producto::create(collect($datos)->except('variantes')->toArray());
 
-            foreach ($datos['variantes'] ?? [] as $variante) {
-                $producto->variantes()->create($variante);
-            }
+                foreach ($datos['variantes'] ?? [] as $variante) {
+                    $producto->variantes()->create($variante);
+                }
 
-            return $producto;
-        });
+                return $producto;
+            });
 
-        return response()->json(
-            $producto->load('variantes', 'imagenes'),
-            201
-        );
+            return response()->json([
+                'success' => true,
+                'message' => 'Producto creado exitosamente',
+                'data' => $producto->load('variantes', 'imagenes')
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al crear producto: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show($id)
     {
-        return Producto::with(['categoria', 'catalogo', 'variantes', 'imagenes'])
-            ->findOrFail($id);
+        try {
+            $producto = Producto::with(['categoria', 'catalogo', 'variantes', 'imagenes'])
+                ->findOrFail($id);
+            return response()->json([
+                'success' => true,
+                'message' => 'Producto obtenido correctamente',
+                'data' => $producto
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener producto: ' . $e->getMessage()
+            ], 404);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $producto = Producto::findOrFail($id);
+        try {
+            $producto = Producto::findOrFail($id);
 
-        $datos = $request->validate([
-            'nombre' => 'sometimes|required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio_venta' => 'sometimes|required|numeric|min:0',
-            'categoria_id' => 'nullable|exists:categorias,id_categoria',
-            'catalogo_id' => 'nullable|exists:catalogos,id_catalogo',
-            'activo' => 'boolean',
-            'publicado' => 'boolean',
-        ]);
+            $datos = $request->validate([
+                'nombre' => 'sometimes|required|string|max:255',
+                'descripcion' => 'nullable|string',
+                'precio_venta' => 'sometimes|required|numeric|min:0',
+                'categoria_id' => 'nullable|exists:categorias,id_categoria',
+                'catalogo_id' => 'nullable|exists:catalogos,id_catalogo',
+                'activo' => 'boolean',
+                'publicado' => 'boolean',
+            ]);
 
-        $producto->update($datos);
+            $producto->update($datos);
 
-        return response()->json($producto->load('variantes', 'imagenes'));
+            return response()->json([
+                'success' => true,
+                'message' => 'Producto actualizado correctamente',
+                'data' => $producto->load('variantes', 'imagenes')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar producto: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $producto = Producto::findOrFail($id);
+        try {
+            $producto = Producto::findOrFail($id);
 
 
-        foreach ($producto->imagenes as $imagen) {
-            Storage::disk('public')->delete($imagen->ruta);
+            foreach ($producto->imagenes as $imagen) {
+                Storage::disk('public')->delete($imagen->ruta);
+            }
+
+            $producto->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Producto eliminado correctamente'
+            ]);
         }
-
-        $producto->delete(); 
-
-        return response()->json([
-            'mensaje' => 'Producto eliminado',
-        ]);
     }
 
    

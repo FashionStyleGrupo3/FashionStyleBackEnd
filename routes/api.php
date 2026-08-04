@@ -1,37 +1,24 @@
-// Andres Mauricio Carvajal Vera
 <?php
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductoController;
-<<<<<<< HEAD
-<<<<<<< HEAD
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CatalogoController;
-use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UsuarioController;
-=======
 use App\Http\Controllers\InventarioController;
->>>>>>> origin/ErickBackEnd
 use App\Http\Controllers\VentaController;
-=======
-// Import your new Cart controllers
 use App\Http\Controllers\api\CarritoController;
 use App\Http\Controllers\api\DetalleCarritoController;
->>>>>>> origin/MauricioBackEnd
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/refresh', [AuthController::class, 'refresh']);
-
-// ============================================
-// RUTAS DE INVENTARIO (TODAS)
-// ============================================
 Route::get('/inventario', [InventarioController::class, 'index']);           // GET - Listar
 Route::post('/inventario', [InventarioController::class, 'store']);          // POST - Crear
 Route::get('/inventario/{id}', [InventarioController::class, 'show']);       // GET - Ver uno
@@ -53,11 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
             'roles' => $roles,
         ];
     });
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> origin/MauricioBackEnd
     Route::middleware('role:admin')->group(function () {
         Route::post('/usuarios/{id}/asignar-rol', function (Request $request, $id) {
             $request->validate([
@@ -90,9 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
 });
 
-<<<<<<< HEAD
 Route::apiResource('productos', ProductoController::class);
-<<<<<<< HEAD
 Route::apiResource('clientes', ClienteController::class);
 Route::apiResource('categorias', CategoriaController::class);
 Route::apiResource('catalogos', CatalogoController::class);
@@ -101,10 +81,8 @@ Route::apiResource('pedidos', PedidoController::class);
 Route::apiResource('promociones', PromocionController::class);
 Route::apiResource('proveedores', ProveedorController::class);
 Route::apiResource('usuarios', UsuarioController::class);
-=======
->>>>>>> origin/ErickBackEnd
 Route::apiResource('ventas', VentaController::class);
-=======
+
 // Rutas públicas
 Route::apiResource('productos', ProductoController::class);
->>>>>>> origin/MauricioBackEnd
+

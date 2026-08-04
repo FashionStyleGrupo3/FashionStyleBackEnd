@@ -10,10 +10,6 @@ class Inventario extends Model
 {
     use HasFactory;
 
-<<<<<<< HEAD
-    protected $fillable = [
-        'producto_id',
-=======
     protected $table = 'inventarios';
     protected $primaryKey = 'id'; 
     public $timestamps = false;
@@ -21,7 +17,6 @@ class Inventario extends Model
     protected $fillable = [
         'producto_id',
         'materia_prima_id',
->>>>>>> origin/ErickBackEnd
         'usuario_id',
         'tipo_movimiento',
         'concepto',
@@ -32,19 +27,6 @@ class Inventario extends Model
         'costo_total',
         'estado',
         'diferencia',
-<<<<<<< HEAD
-    ];
-
-    public function producto()
-    {
-        return $this->belongsTo(Producto::class, 'producto_id', 'id_producto');
-    }
-
-    public function usuario()
-    {
-        return $this->belongsTo(User::class, 'usuario_id', 'id_usuario');
-    }
-=======
 ];
 
     protected $casts = [
@@ -91,5 +73,4 @@ class Inventario extends Model
     }
 
     
->>>>>>> origin/ErickBackEnd
 }
