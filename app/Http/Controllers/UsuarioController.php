@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
@@ -13,6 +14,105 @@ class UsuarioController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function register(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'email' => 'required|email|unique:usuarios,correo|unique:clientes,correo',
+            'password' => 'required|min:6',
+            'tipo_documento' => 'required|in:CC,NIT,CE,PP',
+            'numero_documento' => 'required|string|max:255|unique:clientes,numero_documento',
+            'telefono' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'ciudad' => 'required|string|max:255',
+        ]);
+
+        return DB::transaction(function () use ($request) {
+            $user = User::create([
+                'nombre' => $request->nombre . ' ' . $request->apellido,
+                'correo' => $request->email,
+                'password_hash' => Hash::make($request->password),
+                'telefono' => $request->telefono,
+                'direccion' => $request->direccion,
+                'ciudad' => $request->ciudad,
+                'activo' => 1,
+            ]);
+
+            // IMPORTANTE: Aquí el rol es fijo como 'cliente' por seguridad
+            $user->assignRole('cliente');
+
+            $cliente = Cliente::create([
+                'usuario_id' => $user->id_usuario,
+                'nombre_completo' => $request->nombre . ' ' . $request->apellido,
+                'tipo_documento' => $request->tipo_documento,
+                'numero_documento' => $request->numero_documento,
+                'telefono' => $request->telefono,
+                'correo' => $request->email,
+                'direccion' => $request->direccion,
+                'ciudad' => $request->ciudad,
+            ]);
+
+            return response()->json([
+                'message' => '¡Cuenta de cliente creada con éxito!',
+                'cliente' => $cliente,
+                'user' => $user->load('roles'),
+            ], 201);
+        });
+    }
+
+    /**
+     * CREACIÓN ADMINISTRATIVA: Solo un admin puede usar esto para crear admin/empleados.
+     */
+    public function store(Request $request)
+    {
+        // 1. Verificación de seguridad: solo administradores
+        /** @var \App\Models\User|null $authUser */
+            $authUser = Auth::user();
+        if (!auth()->user() || !auth()->user()->hasRole('admin')) {
+            return response()->json(['message' => 'Acceso denegado. Se requieren permisos de administrador.'], 403);
+        }
+
+        $request->validate([
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'email' => 'required|email|unique:usuarios,correo',
+            'password' => 'required|min:6',
+            'rol' => 'required|in:admin,empleado,cliente', // Aquí sí permitimos elegir
+            'tipo_documento' => 'nullable|in:CC,NIT,CE,PP',
+            'numero_documento' => 'nullable|string|unique:clientes,numero_documento',
+        ]);
+
+        return DB::transaction(function () use ($request) {
+            $user = User::create([
+                'nombre' => $request->nombre . ' ' . $request->apellido,
+                'correo' => $request->email,
+                'password_hash' => Hash::make($request->password),
+                'telefono' => $request->telefono,
+                'direccion' => $request->direccion,
+                'ciudad' => $request->ciudad,
+                'activo' => 1,
+            ]);
+
+            $user->assignRole($request->rol);
+
+            // Si el rol es cliente, también le creamos su ficha de cliente
+            if ($request->rol === 'cliente') {
+                Cliente::create([
+                    'usuario_id' => $user->id_usuario,
+                    'nombre_completo' => $user->nombre,
+                    'correo' => $user->correo,
+                    'tipo_documento' => $request->tipo_documento,
+                    'numero_documento' => $request->numero_documento,
+                ]);
+            }
+
+            return response()->json([
+                'message' => "Usuario con rol {$request->rol} creado por el administrador.",
+                'user' => $user->load('roles'),
+            ], 201);
+        });
+    }
     public function index()
     {
         /** @var \App\Models\User $user */
@@ -37,53 +137,7 @@ class UsuarioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required|string',
-            'apellido' => 'required|string',
-            'email' => 'required|email|unique:usuarios,correo|unique:clientes,correo',
-            'password' => 'required|min:6',
-            'rol' => 'required|in:admin,cliente',
-            'tipo_documento' => 'required|in:CC,NIT,CE,PP',
-            'numero_documento' => 'required|string|max:255|unique:clientes,numero_documento',
-            'telefono' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'ciudad' => 'required|string|max:255',
-        ]);
-
-        return DB::transaction(function () use ($request) {
-            $user = User::create([
-                'nombre' => $request->nombre . ' ' . $request->apellido,
-                'correo' => $request->email,
-                'password_hash' => Hash::make($request->password),
-                'telefono' => $request->telefono,
-                'direccion' => $request->direccion,
-                'ciudad' => $request->ciudad,
-                'activo' => 1,
-            ]);
-
-            $user->assignRole($request->rol);
-
-            $cliente = Cliente::create([
-                'usuario_id' => $user->id_usuario,
-                'nombre_completo' => $request->nombre . ' ' . $request->apellido,
-                'tipo_documento' => $request->tipo_documento,
-                'numero_documento' => $request->numero_documento,
-                'telefono' => $request->telefono,
-                'correo' => $request->email,
-                'direccion' => $request->direccion,
-                'ciudad' => $request->ciudad,
-            ]);
-
-            return response()->json([
-                'message' => '¡Registrado con éxito!',
-                'rol_asignado' => $request->rol,
-                'cliente' => $cliente,
-                'user_auth' => $user->load('roles'),
-            ], 201);
-        });
-    }
+    
 
     /**
      * Display the specified resource.

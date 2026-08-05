@@ -10,8 +10,7 @@ class ProductoVariante extends Model
 
     protected $primaryKey = 'id_variante';
 
-    // esta tabla sí tiene created_at Y updated_at, así que dejamos timestamps activo
-    public $timestamps = true;
+    
 
     protected $fillable = [
         'producto_id',

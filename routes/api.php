@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Perfil del usuario
     Route::get('/me', function (Request $request) {
         $user = $request->user();
+        $roles = $user->getRoleNames();
+        $user->makeHidden('roles');
         return [
             'user' => $user,
             'roles' => $user->getRoleNames(),
@@ -54,6 +56,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // --- 3. RUTAS DE ADMINISTRADOR / EMPLEADO ---
     Route::middleware('role:admin|empleado')->group(function () {
+        Route::post('/productos', [ProductoController::class, 'store']);
+        Route::put('/productos/{id}', [ProductoController::class, 'update']);
+        Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
+        Route::post('/productos/{id}/variantes', [ProductoController::class, 'storeVariante']);
+        Route::put('/variantes/{id}', [ProductoController::class, 'updateVariante']);
+        Route::delete('/variantes/{id}', [ProductoController::class, 'destroyVariante']);
+        Route::post('/productos/{id}/imagenes', [ProductoController::class, 'storeImagen']);
+        Route::delete('/imagenes/{id}', [ProductoController::class, 'destroyImagen']);
         Route::apiResource('inventarios', InventarioController::class);
         Route::apiResource('proveedores', ProveedorController::class);
         Route::apiResource('promociones', PromocionController::class);

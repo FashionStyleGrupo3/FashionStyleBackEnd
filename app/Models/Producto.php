@@ -22,6 +22,7 @@ class Producto extends Model
         'publicado',
     ];
 
+    protected $appends = ['stock_total'];
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_id', 'id_categoria');
@@ -46,4 +47,11 @@ class Producto extends Model
     {
         return $this->variantes()->select('color')->distinct();
     }
+
+    public function getStockTotalAttribute()
+    {
+        return (int) $this->variantes()->sum('stock');
+    }
+
+    
 }

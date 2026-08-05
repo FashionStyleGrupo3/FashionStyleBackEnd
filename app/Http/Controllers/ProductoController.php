@@ -19,7 +19,7 @@ class ProductoController extends Controller
                 'success' => true,
                 'message' => 'Productos obtenidos correctamente',
                 'data' => $productos
-            ]);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -75,11 +75,12 @@ class ProductoController extends Controller
         try {
             $producto = Producto::with(['categoria', 'catalogo', 'variantes', 'imagenes'])
                 ->findOrFail($id);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Producto obtenido correctamente',
                 'data' => $producto
-            ]);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -109,7 +110,7 @@ class ProductoController extends Controller
                 'success' => true,
                 'message' => 'Producto actualizado correctamente',
                 'data' => $producto->load('variantes', 'imagenes')
-            ]);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -123,7 +124,6 @@ class ProductoController extends Controller
         try {
             $producto = Producto::findOrFail($id);
 
-
             foreach ($producto->imagenes as $imagen) {
                 Storage::disk('public')->delete($imagen->ruta);
             }
@@ -133,82 +133,141 @@ class ProductoController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Producto eliminado correctamente'
-            ]);
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar producto: ' . $e->getMessage()
+            ], 500);
         }
     }
 
-   
+  
 
     public function storeVariante(Request $request, $productoId)
     {
-        $producto = Producto::findOrFail($productoId);
+        try {
+            $producto = Producto::findOrFail($productoId);
 
-        $datos = $request->validate([
-            'talla' => 'required|string|max:20',
-            'color' => 'required|string|max:50',
-            'stock' => 'integer|min:0',
-            'sku' => 'nullable|string|max:100|unique:productos_variantes,sku',
-        ]);
+            $datos = $request->validate([
+                'talla' => 'required|string|max:20',
+                'color' => 'required|string|max:50',
+                'stock' => 'required|integer|min:0',
+                'sku' => 'nullable|string|max:100|unique:productos_variantes,sku',
+            ]);
 
-        $variante = $producto->variantes()->create($datos);
+            $variante = $producto->variantes()->create($datos);
 
-        return response()->json($variante, 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Variante creada exitosamente',
+                'data' => $variante
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al crear variante: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function updateVariante(Request $request, $varianteId)
     {
-        $variante = ProductoVariante::findOrFail($varianteId);
+        try {
+            $variante = ProductoVariante::findOrFail($varianteId);
 
-        $datos = $request->validate([
-            'talla' => 'sometimes|required|string|max:20',
-            'color' => 'sometimes|required|string|max:50',
-            'stock' => 'integer|min:0',
-            'sku' => 'nullable|string|max:100|unique:productos_variantes,sku,' . $variante->id_variante . ',id_variante',
-        ]);
+            $datos = $request->validate([
+                'talla' => 'sometimes|required|string|max:20',
+                'color' => 'sometimes|required|string|max:50',
+                'stock' => 'required|integer|min:0',
+                'sku' => 'nullable|string|max:100|unique:productos_variantes,sku,' . $variante->id_variante . ',id_variante',
+            ]);
 
-        $variante->update($datos);
+            $variante->update($datos);
 
-        return response()->json($variante);
+            return response()->json([
+                'success' => true,
+                'message' => 'Variante actualizada correctamente',
+                'data' => $variante
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar variante: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroyVariante($varianteId)
     {
-        ProductoVariante::findOrFail($varianteId)->delete();
+        try {
+            $variante = ProductoVariante::findOrFail($varianteId);
+            $variante->delete();
 
-        return response()->json(['mensaje' => 'Variante eliminada']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Variante eliminada correctamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar variante: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
-
+    
     public function storeImagen(Request $request, $productoId)
     {
-        $producto = Producto::findOrFail($productoId);
+        try {
+            $producto = Producto::findOrFail($productoId);
 
-        $request->validate([
-            'imagen' => 'required|image|max:4096',
-            'color' => 'nullable|string|max:50',
-            'es_principal' => 'boolean',
-            'orden' => 'integer|min:0',
-        ]);
+            $request->validate([
+                'imagen' => 'required|image|max:4096',
+                'color' => 'nullable|string|max:50',
+                'es_principal' => 'boolean',
+                'orden' => 'integer|min:0',
+            ]);
 
-        $ruta = $request->file('imagen')->store('productos', 'public');
+            $ruta = $request->file('imagen')->store('productos', 'public');
 
-        $imagen = $producto->imagenes()->create([
-            'color' => $request->color,
-            'ruta' => $ruta,
-            'es_principal' => $request->boolean('es_principal'),
-            'orden' => $request->integer('orden', 0),
-        ]);
+            $imagen = $producto->imagenes()->create([
+                'color' => $request->color,
+                'ruta' => $ruta,
+                'es_principal' => $request->boolean('es_principal'),
+                'orden' => $request->integer('orden', 0),
+            ]);
 
-        return response()->json($imagen, 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Imagen subida correctamente',
+                'data' => $imagen
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al subir imagen: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroyImagen($imagenId)
     {
-        $imagen = ProductoImagen::findOrFail($imagenId);
+        try {
+            $imagen = ProductoImagen::findOrFail($imagenId);
 
-        Storage::disk('public')->delete($imagen->ruta);
-        $imagen->delete();
+            Storage::disk('public')->delete($imagen->ruta);
+            $imagen->delete();
 
-        return response()->json(['mensaje' => 'Imagen eliminada']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Imagen eliminada correctamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar imagen: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

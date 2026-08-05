@@ -24,6 +24,13 @@ class ProductoImagen extends Model
         'es_principal' => 'boolean',
     ];
 
+    protected $appends = ['url'];
+
+    
+    public function getUrlAttribute(): string
+    {
+        return asset('storage/' . $this->ruta);
+    }
     public function producto()
     {
         return $this->belongsTo(Producto::class, 'producto_id', 'id_producto');
