@@ -19,55 +19,60 @@ class Venta extends Model
     /**
      * The primary key associated with the table.
      */
-    protected $primaryKey = 'ID_Venta';
+    protected $primaryKey = 'id_venta';
 
     /**
      * Indicates if the model should be timestamped.
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'Numero_Comprobante',
-        'ID_Usuario',
-        'Descripcion',
-        'Categoria',
-        'Notas',
-        'Fecha_Venta',
-        'Monto_Total',
-        'Medio_Pago',
-        'Estado',
-        'Cancelada',
+        'cliente_id',
+        'usuario_id',
+        'fecha_venta',
+        'total',
+        'estado',
+        'metodo_pago',
+        'observaciones',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'Fecha_Venta' => 'datetime',
-        'Monto_Total' => 'decimal:2',
-        'Cancelada' => 'boolean',
-        'ID_Usuario' => 'integer',
+        'total' => 'decimal:2',
+        'fecha_venta' => 'datetime',
+        'cliente_id' => 'integer',
+        'usuario_id' => 'integer',
     ];
 
     // ==================== RELACIONES ====================
 
     /**
-     * Get the user who made the sale.
+     * Get the client that owns the sale.
      */
-    public function usuario(): BelongsTo
+    public function cliente(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'ID_Usuario', 'id');
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'id_cliente');
     }
 
     /**
-     * Get the sale details (items sold).
+     * Get the user that created the sale.
+     */
+    public function usuario(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'usuario_id', 'id_usuario');
+    }
+
+    /**
+     * Get the details of the sale.
      */
     public function detalles(): HasMany
     {
-        return $this->hasMany(DetalleVenta::class, 'ID_Venta', 'ID_Venta');
+        return $this->hasMany(DetalleVenta::class, 'venta_id', 'id_venta');
     }
 
     // ==================== SCOPES ====================
@@ -75,17 +80,9 @@ class Venta extends Model
     /**
      * Scope to filter by status.
      */
-    public function scopeEstado($query, $estado)
+    public function scopePorEstado($query, $estado)
     {
-        return $query->where('Estado', $estado);
-    }
-
-    /**
-     * Scope to filter by payment method.
-     */
-    public function scopeMedioPago($query, $medio)
-    {
-        return $query->where('Medio_Pago', $medio);
+        return $query->where('estado', $estado);
     }
 
     /**
@@ -93,119 +90,102 @@ class Venta extends Model
      */
     public function scopeFechaEntre($query, $fechaInicio, $fechaFin)
     {
-        return $query->whereBetween('Fecha_Venta', [$fechaInicio, $fechaFin]);
+        return $query->whereBetween('fecha_venta', [$fechaInicio, $fechaFin]);
     }
 
     /**
-     * Scope to get only active sales (not canceled).
+     * Scope to filter by client.
      */
-    public function scopeActivas($query)
+    public function scopePorCliente($query, $clienteId)
     {
-        return $query->where('Cancelada', false);
+        return $query->where('cliente_id', $clienteId);
     }
 
     /**
-     * Scope to get canceled sales.
+     * Scope to filter by payment method.
      */
-    public function scopeCanceladas($query)
+    public function scopePorMetodoPago($query, $metodoPago)
     {
-        return $query->where('Cancelada', true);
+        return $query->where('metodo_pago', $metodoPago);
     }
 
+    // ==================== MÉTODOS DE UTILIDAD ====================
+
     /**
-     * Scope to filter by category.
+     * Calculate total from details.
      */
-    public function scopeCategoria($query, $categoria)
+    public function calcularTotal(): float
     {
-        return $query->where('Categoria', $categoria);
+        return $this->detalles()->sum('subtotal');
     }
 
-    // ==================== MÉTODOS DE VERIFICACIÓN ====================
-
     /**
-     * Check if the sale is canceled.
+     * Update total from details.
      */
-    public function isCancelada(): bool
+    public function actualizarTotal(): bool
     {
-        return (bool) $this->Cancelada;
+        $this->total = $this->calcularTotal();
+        return $this->save();
     }
 
     /**
-     * Check if the sale is active.
+     * Get the formatted total.
      */
-    public function isActiva(): bool
+    public function getTotalFormateadoAttribute(): string
     {
-        return !$this->isCancelada();
+        return '$ ' . number_format($this->total, 2);
     }
 
     /**
-     * Check if the sale is pending.
-     */
-    public function isPendiente(): bool
-    {
-        return $this->Estado === 'pendiente';
-    }
-
-    /**
-     * Check if the sale is completed.
-     */
-    public function isCompletada(): bool
-    {
-        return $this->Estado === 'completada';
-    }
-
-    /**
-     * Check if the sale is in process.
-     */
-    public function isEnProceso(): bool
-    {
-        return $this->Estado === 'en_proceso';
-    }
-
-    // ==================== MÉTODOS DE CÁLCULO ====================
-
-    /**
-     * Get the status label in Spanish.
+     * Get the status label.
      */
     public function getEstadoTextoAttribute(): string
     {
         $estados = [
             'pendiente' => 'Pendiente',
-            'en_proceso' => 'En Proceso',
             'completada' => 'Completada',
             'cancelada' => 'Cancelada',
+            'entregada' => 'Entregada',
         ];
-        return $estados[$this->Estado] ?? $this->Estado;
+        return $estados[$this->estado] ?? $this->estado;
     }
 
     /**
-     * Get the payment method label in Spanish.
+     * Get the payment method label.
      */
-    public function getMedioPagoTextoAttribute(): string
+    public function getMetodoPagoTextoAttribute(): string
     {
-        $medios = [
+        $metodos = [
             'efectivo' => 'Efectivo',
             'tarjeta' => 'Tarjeta',
             'transferencia' => 'Transferencia',
             'credito' => 'Crédito',
-            'debito' => 'Débito',
         ];
-        return $medios[$this->Medio_Pago] ?? $this->Medio_Pago;
+        return $metodos[$this->metodo_pago] ?? $this->metodo_pago;
     }
 
     /**
-     * Get formatted total.
+     * Check if sale is completable (has details).
      */
-    public function getMontoTotalFormateadoAttribute(): string
+    public function isCompletable(): bool
     {
-        return '$ ' . number_format($this->Monto_Total, 2);
+        return $this->detalles()->count() > 0;
     }
 
     /**
-     * Get a short summary of the sale.
+     * Boot the model.
      */
-    public function getResumenAttribute(): string
+    protected static function boot()
     {
-        return "Venta #{$this->Numero_Comprobante} - {$this->getEstadoTextoAttribute()} - {$this->getMontoTotalFormateadoAttribute()}";
+        parent::boot();
+
+        static::creating(function ($venta) {
+            if (empty($venta->fecha_venta)) {
+                $venta->fecha_venta = now();
+            }
+            if (empty($venta->estado)) {
+                $venta->estado = 'pendiente';
+            }
+        });
     }
 }

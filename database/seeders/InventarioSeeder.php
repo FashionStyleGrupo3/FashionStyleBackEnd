@@ -14,73 +14,69 @@ class InventarioSeeder extends Seeder
 {
     public function run(): void
     {
-        // Verificar que existan datos en las tablas relacionadas
+
         $this->verificarDatosRelacionados();
 
-        // ============================================
-        // 1. CREAR 100 MOVIMIENTOS CON FACTORY
-        // ============================================
+
         $this->command->info(' Generando movimientos con Factory...');
 
-        // Crear movimientos variados
+
         Inventario::factory()
             ->count(50)
             ->create();
 
-        // Crear 30 entradas
+
         Inventario::factory()
             ->count(30)
             ->entrada()
             ->create();
 
-        // Crear 20 salidas
+
         Inventario::factory()
             ->count(20)
             ->salida()
             ->create();
 
-        // Crear 15 ajustes
+
         Inventario::factory()
             ->count(15)
             ->ajuste()
             ->create();
 
-        // Crear 10 movimientos recientes
+
         Inventario::factory()
             ->count(10)
             ->reciente()
             ->create();
 
-        // Crear 10 movimientos con productos
+
         Inventario::factory()
             ->count(10)
             ->conProducto()
             ->create();
 
-        // Crear 10 movimientos con materias primas
+  
         Inventario::factory()
             ->count(10)
             ->conMateriaPrima()
             ->create();
 
-        // Crear 10 movimientos de alto costo
+
         Inventario::factory()
             ->count(10)
             ->altoCosto()
             ->create();
 
-        // Crear 10 movimientos de bajo costo
+
         Inventario::factory()
             ->count(10)
             ->bajoCosto()
             ->create();
 
-        // ============================================
-        // 2. CREAR MOVIMIENTOS ESPECÍFICOS (custom)
-        // ============================================
-        $this->command->info('📝 Creando movimientos específicos...');
 
-        // Movimientos de entrada con productos específicos
+        $this->command->info(' Creando movimientos específicos...');
+
+
         Inventario::factory()
             ->entrada()
             ->conProducto()
@@ -103,7 +99,7 @@ class InventarioSeeder extends Seeder
             ])
             ->create();
 
-        // Movimientos de salida importantes
+
         Inventario::factory()
             ->salida()
             ->conProducto()
@@ -126,7 +122,7 @@ class InventarioSeeder extends Seeder
             ])
             ->create();
 
-        // Ajustes importantes
+
         Inventario::factory()
             ->ajuste()
             ->conProducto()
@@ -151,9 +147,7 @@ class InventarioSeeder extends Seeder
             ])
             ->create();
 
-        // ============================================
-        // 3. MOSTRAR RESULTADOS
-        // ============================================
+
         $this->command->info('');
         $this->command->info(' InventarioSeeder ejecutado correctamente');
         $this->command->info(' Total de registros: ' . Inventario::count());
@@ -171,19 +165,19 @@ class InventarioSeeder extends Seeder
      */
     private function verificarDatosRelacionados()
     {
-        // Verificar productos
+
         if (Producto::count() === 0) {
             $this->command->warn(' No hay productos. Creando productos de prueba...');
             $this->crearProductosPrueba();
         }
 
-        // Verificar materias primas
+
         if (MateriaPrima::count() === 0) {
             $this->command->warn(' No hay materias primas. Creando materias primas de prueba...');
             $this->crearMateriasPrimasPrueba();
         }
 
-        // Verificar usuarios
+
         if (User::count() === 0) {
             $this->command->warn(' No hay usuarios. Creando usuario de prueba...');
             $this->crearUsuarioPrueba();

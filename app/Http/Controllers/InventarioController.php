@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventario;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;   
 
 class InventarioController extends Controller
 {
@@ -45,7 +44,7 @@ class InventarioController extends Controller
         try {
             $validated = $request->validate([
                 'producto_id' => 'nullable|exists:productos,id_producto',
-                'materia_prima_id' => 'nullable|exists:materias_primas,id',
+                'materia_prima_id' => 'nullable|exists:materiales,id_material',
                 'tipo_movimiento' => 'required|in:entrada,salida,ajuste',
                 'concepto' => 'required|string|max:100',
                 'observaciones' => 'nullable|string',
@@ -53,7 +52,6 @@ class InventarioController extends Controller
                 'costo_unitario' => 'nullable|numeric|min:0',
             ]);
 
-            // Validar que al menos uno de los dos FK esté presente
             if (is_null($validated['producto_id']) && is_null($validated['materia_prima_id'])) {
                 return response()->json([
                     'success' => false,
@@ -61,10 +59,10 @@ class InventarioController extends Controller
                 ], 422);
             }
 
-            $validated['usuario_id'] = auth()->id() ?? 1;
+            
+            $validated['usuario_id'] = auth()->user() ? auth()->user()->id : 1;
             $validated['fecha_registro'] = now();
 
-            // Calcular costo total automáticamente
             if (isset($validated['costo_unitario'])) {
                 $validated['costo_total'] = $validated['costo_unitario'] * $validated['cantidad'];
             }
@@ -87,7 +85,7 @@ class InventarioController extends Controller
     /**
      * Display the specified inventory movement.
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
             $movimiento = Inventario::with(['producto', 'materiaPrima', 'usuario'])
@@ -116,7 +114,7 @@ class InventarioController extends Controller
     /**
      * Update the specified inventory movement.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         try {
             $movimiento = Inventario::find($id);
@@ -130,7 +128,7 @@ class InventarioController extends Controller
 
             $validated = $request->validate([
                 'producto_id' => 'nullable|exists:productos,id_producto',
-                'materia_prima_id' => 'nullable|exists:materias_primas,id',
+                'materia_prima_id' => 'nullable|exists:materiales,id_material',
                 'tipo_movimiento' => 'sometimes|in:entrada,salida,ajuste',
                 'concepto' => 'sometimes|string|max:100',
                 'observaciones' => 'nullable|string',
@@ -138,7 +136,6 @@ class InventarioController extends Controller
                 'costo_unitario' => 'nullable|numeric|min:0',
             ]);
 
-            // Calcular costo total si se actualiza cantidad o costo unitario
             if (isset($validated['costo_unitario']) && isset($validated['cantidad'])) {
                 $validated['costo_total'] = $validated['costo_unitario'] * $validated['cantidad'];
             } elseif (isset($validated['costo_unitario']) && $movimiento->cantidad) {
@@ -165,7 +162,7 @@ class InventarioController extends Controller
     /**
      * Remove the specified inventory movement.
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
             $movimiento = Inventario::find($id);
@@ -227,7 +224,7 @@ class InventarioController extends Controller
     /**
      * Get inventory movements by type.
      */
-    public function porTipo($tipo)
+    public function porTipo(string $tipo)
     {
         try {
             if (!in_array($tipo, ['entrada', 'salida', 'ajuste'])) {

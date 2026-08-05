@@ -25,9 +25,8 @@ class Inventario extends Model
         'fecha_registro',
         'costo_unitario',
         'costo_total',
-        'estado',
-        'diferencia',
-];
+        'estado'
+    ];
 
     protected $casts = [
         'fecha_registro' => 'datetime',
@@ -37,30 +36,24 @@ class Inventario extends Model
         'usuario_id' => 'integer',
         'costo_unitario' => 'decimal:2',
         'costo_total' => 'decimal:2',
-        'diferencia' => 'integer',
     ];
 
-    // ==================== RELACIONES ====================
 
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class, 'producto_id', 'id_producto');
-        // Ajusta 'id_producto' según tu tabla productos
     }
 
     public function materiaPrima(): BelongsTo
     {
-        return $this->belongsTo(MateriaPrima::class, 'materia_prima_id', 'id_materia_prima');
-        
+        return $this->belongsTo(MateriaPrima::class, 'materia_prima_id', 'id_material');
     }
 
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'usuario_id', 'id_usuario');
-        
     }
 
-    // ==================== SCOPES ====================
 
     public function scopeTipoMovimiento($query, $tipo)
     {
@@ -71,6 +64,4 @@ class Inventario extends Model
     {
         return $query->whereBetween('fecha_registro', [$fechaInicio, $fechaFin]); 
     }
-
-    
 }

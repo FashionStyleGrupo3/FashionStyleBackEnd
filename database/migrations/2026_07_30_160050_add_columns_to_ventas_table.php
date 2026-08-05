@@ -17,7 +17,7 @@ return new class extends Migration
                     ->constrained('pedidos', 'id')->onDelete('restrict');
             }
             if (!Schema::hasColumn('ventas', 'usuario_id')) {
-                $table->foreignId('usuario_id')->after('pedido_id')
+                $table->foreignId('usuario_id')->after('pedido_id')     
                     ->constrained('usuarios', 'id_usuario')->onDelete('restrict');
             }
             if (!Schema::hasColumn('ventas', 'descripcion')) {

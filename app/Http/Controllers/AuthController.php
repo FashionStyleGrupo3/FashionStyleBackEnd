@@ -30,12 +30,12 @@ class AuthController extends Controller
             'activo' => 1,
         ]);
 
-        // Asigna el rol vía Spatie (por defecto 'cliente' si no se especifica)
+   
         $user->assignRole('cliente');
 
         if ($user->hasRole('cliente')) {
             DB::table('clientes')->insert([
-                'usuario_id' => $user->id_usuario, // Asocia el ID del usuario recién creado (ej: 3)
+                'usuario_id' => $user->id_usuario, 
                 'nombre_completo' => $user->nombre,
                 'correo' => $user->correo,
                 'telefono' => $user->telefono,
@@ -109,7 +109,7 @@ class AuthController extends Controller
         
         return response()->json([
             'message' => 'Código de recuperación generado correctamente.',
-            'codigo_prueba' => $codigo /*Eliminar esta línea cuando ingrese un correo real*/
+            'codigo_prueba' => $codigo 
         ]);
     }
 
@@ -122,7 +122,7 @@ class AuthController extends Controller
             'nueva_password' => 'required|min:6',
         ]);
 
-        /*Buscar si existe la solicitud en la tabla de tokens*/
+  
         $registro = DB::table('password_reset_tokens')
             ->where('email', $request->correo)
             ->where('token', $request->codigo)
@@ -132,12 +132,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'El código es inválido o el correo es incorrecto.'], 400);
         }
 
-        /*Actualizar la contraseña en la tabla usuarios*/
+
         $user = User::where('correo', $request->correo)->first();
         $user->password_hash = Hash::make($request->nueva_password);
         $user->save();
 
-        /*Eliminar el token usado para que no se vuelva a utilizar*/
+
         DB::table('password_reset_tokens')->where('email', $request->correo)->delete();
 
         return response()->json([

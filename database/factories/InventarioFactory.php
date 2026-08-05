@@ -69,9 +69,6 @@ class InventarioFactory extends Factory
         ];
     }
 
-    // ============================================
-    // MÉTODOS QUE USA TU SEEDER
-    // ============================================
 
     public function entrada(): static
     {
