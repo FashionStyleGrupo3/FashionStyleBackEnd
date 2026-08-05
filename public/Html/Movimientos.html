@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimientos - Fashion Style ERP</title>
+  <link rel="stylesheet" href="../CSS/inventario.css?v=5">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="stylesheet" href="../CSS/erp-shared.css?v=2">
+    <link rel="stylesheet" href="../CSS/asistente-ia.css?v=2">
+</head>
+<body>
+<div class="page-bg"></div>
+<nav class="navbar">
+    <a href="VistaPrevia.html" class="logo-link"><img src="../assets/logo.png" class="logo" alt="Fashion Style" onerror="this.src='../assets/logoBlanco.png'"></a>
+    <div class="navbar-links">
+        <a href="VistaPrevia.html">&#x1F3E0; Inicio</a>
+        <a href="Inventario.html">&#x1F4E6; Inventario</a>
+        <a href="Estadisticas.html">&#x1F4CA; Estad&iacute;sticas</a>
+        <a href="Gastos.html">&#x1F4B8; Gastos</a>
+        <a href="Ingresos.html">&#x1F4B0; Ingresos</a>
+        <a href="Movimientos.html" style="color:#e60067;">&#x1F4CB; Movimientos</a>
+        <a href="VistaPrevia.html" class="btn-volver">&#x1F519; Volver</a>
+    </div>
+</nav>
+
+<div class="page-content">
+    <div class="page-header">
+        <h1>&#x1F4CB; Movimientos de Inventario</h1>
+        <p>Registro detallado de entradas, salidas y ajustes</p>
+        <div class="underline-accent"></div>
+    </div>
+
+    <div class="inv-card">
+        <div class="inv-topbar">
+            <div class="inv-icon">&#x1F4CB;</div>
+            <div>
+                <div class="inv-title">Timeline de Movimientos</div>
+                <div class="inv-subtitle">Historial de cambios en el inventario</div>
+            </div>
+            <button class="btn-registrar" onclick="abrirModalMovimiento()">&#x2795; Nuevo Movimiento</button>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon green">&#x1F4E5;</div>
+                <div class="kpi-label">Entradas</div>
+                <div class="kpi-value green" id="totalEntradas">0</div>
+                <div class="kpi-desc">Unidades ingresadas</div>
+            </div>
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon red">&#x1F4E4;</div>
+                <div class="kpi-label">Salidas</div>
+                <div class="kpi-value red" id="totalSalidas">0</div>
+                <div class="kpi-desc">Unidades retiradas</div>
+            </div>
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon amber">&#x1F504;</div>
+                <div class="kpi-label">Ajustes</div>
+                <div class="kpi-value amber" id="totalAjustes">0</div>
+                <div class="kpi-desc">Total ajustes</div>
+            </div>
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon blue">&#x2696;&#xFE0F;</div>
+                <div class="kpi-label">Balance</div>
+                <div class="kpi-value blue" id="balanceMovimientos">0</div>
+                <div class="kpi-desc">Entradas - Salidas</div>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a9b0" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="buscadorMovimientos" placeholder="Buscar movimientos..." oninput="filtrarMovimientos()">
+            </div>
+            <select id="filtroTipo" onchange="filtrarMovimientos()">
+                <option value="">Todos los tipos</option>
+                <option value="entrada">&#x1F4E5; Entrada</option>
+                <option value="salida">&#x1F4E4; Salida</option>
+                <option value="ajuste">&#x1F504; Ajuste</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table class="inv-table" id="tablaMovimientos">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tipo</th>
+                        <th>Producto/Material</th>
+                        <th>Cantidad</th>
+                        <th>Motivo</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyMovimientos">
+                    <tr><td colspan="7" style="text-align:center;color:#a3a9b0;padding:40px;">
+                        <div style="font-size:24px;margin-bottom:8px;">&#x1F4CB;</div>
+                        <div style="font-weight:500;">Cargando movimientos...</div>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="inv-footer">
+            <span id="totalRegistros">0 movimientos</span>
+            <div class="paginacion" id="paginacionMovimientos"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalMovimiento">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <div class="modal-title">&#x1F4CB; Nuevo Movimiento</div>
+                <div class="modal-sub">Registra entrada, salida o ajuste de inventario</div>
+            </div>
+            <button class="modal-close" onclick="cerrarModal('modalMovimiento')">&#x2715;</button>
+        </div>
+        <div class="field-group">
+            <label>Tipo de Movimiento *</label>
+            <select id="movTipo">
+                <option value="entrada">&#x1F4E5; Entrada</option>
+                <option value="salida">&#x1F4E4; Salida</option>
+                <option value="ajuste">&#x1F504; Ajuste</option>
+            </select>
+        </div>
+        <div class="field-group">
+            <label>Producto *</label>
+            <select id="movProducto"></select>
+        </div>
+        <div class="fields-row">
+            <div class="field-group">
+                <label>Cantidad *</label>
+                <input type="number" id="movCantidad" placeholder="10" min="1">
+            </div>
+            <div class="field-group">
+                <label>Motivo</label>
+                <input type="text" id="movMotivo" placeholder="Ej: Compra a proveedor">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancelar" onclick="cerrarModal('modalMovimiento')">Cancelar</button>
+            <button class="btn-guardar" onclick="guardarMovimiento()">&#x1F4BE; Guardar Movimiento</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../JS/movimientos.js?v=3"></script>
+<script src="../JS/asistente-ia.js"></script>
+</body>
+</html>

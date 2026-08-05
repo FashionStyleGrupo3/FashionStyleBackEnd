@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="titulo-producto">Producto</title>
+  <link rel="stylesheet" href="../CSS/Style.CSS">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+<link rel="stylesheet" href="../CSS/miniCarrito.CSS">
+<link rel="stylesheet" href="../CSS/tallas_medidas.CSS">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+<div id="id1"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="detalle-header">
+  <a href="../Html/VistaPrevia.html" class="logo-link">
+    <img src="../assets/logo.pp.png" class="logo" alt="Fashion Style">
+  </a>
+  <div class="header-actions">
+    <a href="#" class="btn-carrito" title="Carrito">
+      🛒
+      <span class="cart-badge">0</span>
+    </a>
+    <a href="VistaPrevia.html" class="btn-volver-catalogo">
+      <i class="fa-solid fa-arrow-left"></i> Volver al catálogo
+    </a>
+  </div>
+</header>
+
+<!-- ================= BREADCRUMB ================= -->
+<nav class="breadcrumb">
+  <a href="VistaPrevia.html">Inicio</a>
+  <span class="breadcrumb-sep">›</span>
+  <span id="breadcrumb-categoria">Productos</span>
+  <span class="breadcrumb-sep">›</span>
+  <span id="breadcrumb-nombre">Producto</span>
+</nav>
+
+<main>
+
+  <!-- ================= DETALLE DEL PRODUCTO ================= -->
+  <div class="product-container">
+
+    <!-- ---- Galería de imágenes ---- -->
+    <div class="product-gallery">
+      <div class="gallery-thumbs" id="gallery-thumbs">
+        <!-- Las miniaturas se pueden generar dinámicamente desde ProductoDetalle.js -->
+      </div>
+      <div class="product-image">
+        <img id="imagen-producto" src="" alt="Producto">
+        <button class="btn-zoom" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </div>
+
+    <!-- ---- Información del producto ---- -->
+    <div class="product-info">
+      <h1 id="nombre-producto"></h1>
+
+      <div class="product-rating">
+        <span class="stars">★★★★★</span>
+        <span id="opiniones-count">(0 opiniones)</span>
+      </div>
+
+      <div class="product-price-row">
+        <span class="precio-actual" id="precio-producto"></span>
+        <span class="precio-anterior" id="precio-anterior"></span>
+        <span class="badge-descuento" id="badge-descuento"></span>
+      </div>
+
+      <div class="product-stock-row">
+        <span class="badge-stock"><i class="fa-solid fa-check"></i> En stock</span>
+        <span class="sku-text">SKU: <span id="sku-producto"></span></span>
+      </div>
+
+      <hr>
+
+      <p class="product-description"><strong>DESCRIPCIÓN:</strong> <span id="descripcion-producto"></span></p>
+
+      <!-- ---- Tallas y colores ---- -->
+      <div class="opciones-row">
+        <div class="opcion-bloque">
+          <span class="opcion-label">Tallas</span>
+          <div class="talla-opciones" id="talla-opciones">
+            <!-- Las tallas se generan dinámicamente según el producto (ver ProductoDetalle.js) -->
+          </div>
+          <!-- Panel de medidas: aparece al hacer clic en una talla -->
+          <div class="panel-medidas" id="panel-medidas" style="display:none;"></div>
+        </div>
+
+        <div class="opcion-bloque" id="bloque-colores">
+          <span class="opcion-label">Color</span>
+          <div class="color-opciones" id="color-opciones">
+            <!-- El color real del producto se genera dinámicamente desde ProductoDetalle.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Cantidad y acciones ---- -->
+      <div class="cantidad-row">
+        <span class="opcion-label">Cantidad</span>
+        <div class="cantidad-selector">
+          <button class="btn-cantidad" id="btn-restar" type="button">−</button>
+          <span id="cantidad-valor">1</span>
+          <button class="btn-cantidad" id="btn-sumar" type="button">+</button>
+        </div>
+      </div>
+
+      <div class="acciones-row">
+        <button class="btn-add-cart">
+          <i class="fa-solid fa-cart-shopping"></i> AGREGAR AL CARRITO
+        </button>
+        <button class="btn-wishlist" type="button"><i class="fa-regular fa-heart"></i></button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= PRODUCTOS RELACIONADOS ================= -->
+  <section class="relacionados">
+    <div class="relacionados-header">
+      <h3>También te puede interesar</h3>
+      <div class="relacionados-nav">
+        <button class="btn-rel-nav" id="rel-prev" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn-rel-nav" id="rel-next" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="relacionados-grid" id="relacionados-grid">
+      <!-- Las tarjetas de productos relacionados se generan dinámicamente -->
+    </div>
+  </section>
+
+  <!-- ================= BARRA DE BENEFICIOS ================= -->
+  <section class="beneficios-bar">
+    <div class="beneficio">
+      <i class="fa-solid fa-truck"></i>
+      <div>
+        <strong>Envío gratis</strong>
+        <span>Por compras superiores a $150.000</span>
+      </div>
+    </div>
+    <div class="beneficio">
+      <i class="fa-solid fa-shield-halved"></i>
+      <div>
+        <strong>Compra segura</strong>
+        <span>Tus datos protegidos siempre</span>
+      </div>
+    </div>
+    <div class="beneficio">
+      <i class="fa-solid fa-headset"></i>
+      <div>
+        <strong>¿Necesitas ayuda?</strong>
+        <span>Escríbenos por WhatsApp</span>
+      </div>
+    </div>
+    <div class="beneficio">
+      <i class="fa-solid fa-rotate"></i>
+      <div>
+        <strong>Cambios y devoluciones</strong>
+        <span>Fáciles y sin complicaciones</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>T-ZUN MODA - 2026</footer>
+
+<script src="../JS/cartStorage.js"></script>
+<script src="../JS/miniCarrito.js"></script>
+<script src="../JS/ProductoDetalle.js"></script>
+
+</body>
+</html>

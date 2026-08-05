@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos - Fashion Style ERP</title>
+  <link rel="stylesheet" href="../CSS/inventario.css?v=5">
+  <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="stylesheet" href="../CSS/erp-shared.css?v=2">
+    <link rel="stylesheet" href="../CSS/asistente-ia.css?v=2">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="VistaPrevia.html" class="logo-link"><img src="../assets/logo.png" class="logo" alt="Fashion Style" onerror="this.src='../assets/logoBlanco.png'"></a>
+    <div class="navbar-links">
+        <a href="VistaPrevia.html">🏠 Inicio</a>
+        <a href="Inventario.html">📦 Inventario</a>
+        <a href="Estadisticas.html">📊 Estadísticas</a>
+        <a href="Gastos.html" style="color:#e60067;">💸 Gastos</a>
+        <a href="Ingresos.html">💰 Ingresos</a>
+        <a href="Movimientos.html">📋 Movimientos</a>
+        <a href="VistaPrevia.html" class="btn-volver">🔙 Volver</a>
+    </div>
+</nav>
+
+<div class="page-content">
+    <div class="page-header">
+        <h1>💸 Gestión de Gastos</h1>
+        <p>Registra, consulta y analiza los gastos operativos del negocio</p>
+        <div class="underline-accent"></div>
+    </div>
+
+    <div class="inv-card">
+        <div class="inv-topbar">
+            <div class="inv-icon">💸</div>
+            <div>
+                <div class="inv-title">Todos los Gastos</div>
+                <div class="inv-subtitle">Administración completa de gastos</div>
+            </div>
+            <button class="btn-registrar" onclick="abrirModalGasto()">➕ Nuevo Gasto</button>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon red">💰</div>
+                <div class="kpi-label">Total Gastos</div>
+                <div class="kpi-value red" id="totalGastos">$0</div>
+                <div class="kpi-desc">Histórico acumulado</div>
+            </div>
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon amber">📅</div>
+                <div class="kpi-label">Este Mes</div>
+                <div class="kpi-value amber" id="gastosMes">$0</div>
+                <div class="kpi-desc">Gastos del mes actual</div>
+            </div>
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon pink">📊</div>
+                <div class="kpi-label">Categorías</div>
+                <div class="kpi-value pink" id="totalCategorias">0</div>
+                <div class="kpi-desc">Categorías en uso</div>
+            </div>
+            <div class="kpi-card fade-in">
+                <div class="kpi-icon green">📈</div>
+                <div class="kpi-label">Promedio</div>
+                <div class="kpi-value green" id="promedioGasto">$0</div>
+                <div class="kpi-desc">Por transacción</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a9b0" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="buscadorGastos" placeholder="Buscar gastos por descripción..." oninput="filtrarGastos()">
+            </div>
+            <select id="filtroCategoria" onchange="filtrarGastos()">
+                <option value="">Todas las categorías</option>
+                <option value="publicidad">Publicidad</option>
+                <option value="transporte">Transporte</option>
+                <option value="servicios">Servicios</option>
+                <option value="materiales">Materiales</option>
+                <option value="nomina">Nómina</option>
+                <option value="alquiler">Alquiler</option>
+                <option value="comisiones">Comisiones</option>
+                <option value="otros">Otros</option>
+            </select>
+            <button class="btn-secondary" onclick="cargarGastos()" title="Actualizar">🔄</button>
+        </div>
+
+        <!-- Charts Row -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:16px 28px;">
+            <div class="stat-card">
+                <div class="stat-label" style="font-size:14px;font-weight:600;color:#16171b;margin-bottom:12px;">💰 Gastos por Categoría</div>
+                <canvas id="chartGastosCategoria" style="max-height:220px;"></canvas>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" style="font-size:14px;font-weight:600;color:#16171b;margin-bottom:12px;">📈 Gastos Mensuales</div>
+                <canvas id="chartGastosMensuales" style="max-height:220px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingGastos" class="loading-state" style="display:none;">
+            <div class="spinner"></div>
+            <p>Cargando gastos...</p>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+            <table class="inv-table" id="tablaGastos">
+                <thead>
+                    <tr>
+                        <th onclick="ordenarGastos('id')" style="cursor:pointer;"># ↕</th>
+                        <th onclick="ordenarGastos('descripcion')" style="cursor:pointer;">Descripción ↕</th>
+                        <th onclick="ordenarGastos('categoria')" style="cursor:pointer;">Categoría ↕</th>
+                        <th onclick="ordenarGastos('monto')" style="cursor:pointer;">Monto ↕</th>
+                        <th onclick="ordenarGastos('fecha')" style="cursor:pointer;">Fecha ↕</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyGastos">
+                    <tr><td colspan="6" style="text-align:center;color:#a3a9b0;padding:40px;">
+                        <div style="font-size:24px;margin-bottom:8px;">💸</div>
+                        <div style="font-weight:500;">Cargando gastos...</div>
+                        <div style="font-size:12px;margin-top:4px;">Espera un momento</div>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer with pagination -->
+        <div class="inv-footer">
+            <span id="totalRegistros">0 registros</span>
+            <div class="paginacion" id="paginacionGastos">
+                <button class="page-btn" onclick="cambiarPaginaGastos('prev')" id="btnPrevGasto">◀ Anterior</button>
+                <span id="infoPaginaGasto" style="margin:0 12px;font-size:13px;color:#4a4d54;">Página 1</span>
+                <button class="page-btn" onclick="cambiarPaginaGastos('next')" id="btnNextGasto">Siguiente ▶</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Nuevo/Editar Gasto -->
+<div class="modal-overlay" id="modalGasto">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <div class="modal-title" id="modalGastoTitle">➕ Nuevo Gasto</div>
+                <div class="modal-sub">Completa los campos para registrar un gasto</div>
+            </div>
+            <button class="modal-close" onclick="cerrarModal('modalGasto')">✕</button>
+        </div>
+        <input type="hidden" id="gastoIdEditar" value="">
+        <div class="field-group">
+            <label>Descripción *</label>
+            <input type="text" id="gastoDescripcion" placeholder="Ej: Publicidad en redes sociales" maxlength="200">
+        </div>
+        <div class="fields-row">
+            <div class="field-group">
+                <label>Monto *</label>
+                <input type="number" id="gastoMonto" placeholder="50000" min="1">
+            </div>
+            <div class="field-group">
+                <label>Categoría *</label>
+                <select id="gastoCategoria">
+                    <option value="publicidad">Publicidad</option>
+                    <option value="transporte">Transporte</option>
+                    <option value="servicios">Servicios</option>
+                    <option value="materiales">Materiales</option>
+                    <option value="nomina">Nómina</option>
+                    <option value="alquiler">Alquiler</option>
+                    <option value="comisiones">Comisiones</option>
+                    <option value="otros">Otros</option>
+                </select>
+            </div>
+        </div>
+        <div class="field-group">
+            <label>Fecha</label>
+            <input type="date" id="gastoFecha">
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancelar" onclick="cerrarModal('modalGasto')">Cancelar</button>
+            <button class="btn-guardar" onclick="guardarGasto()">💾 Guardar Gasto</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../JS/gastos.js?v=4"></script>
+<script src="../JS/asistente-ia.js"></script>
+</body>
+</html>

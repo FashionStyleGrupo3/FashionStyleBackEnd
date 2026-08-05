@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FASHIONSTYLE - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/CSS2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/Style.CSS">
+    <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="stylesheet" href="../CSS/miniCarrito.CSS">
+    <link rel="stylesheet" href="../CSS/asistente-ia.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/CSS2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Contenedor del mini carrito (requerido por miniCarrito.js) -->
+<div id="id1"></div>
+
+<!-- HEADER -->
+<header>
+    <a href="#" class="logo-link">
+        <img src="../assets/logo.pp.png" alt="FashionStyle Logo" class="logo">
+    </a>
+
+    <div class="search-container">
+        <span class="search-icon"></span>
+        <input id="int-buscar" type="search" placeholder="Buscar productos...">
+        <button class="btn-buscar">🔍</button>
+    </div>
+
+        <div class="header-actions">
+
+    <a href="CarritoGrande.html" class="btn-carrito" title="Carrito">
+        🛒
+        <span class="cart-badge">0</span>
+    </a>
+
+   <a href="Login.html" class="btn-login" id="btnLogin">
+    <i class="fa-solid fa-user"></i>
+    Iniciar Sesión
+    </a>
+
+    <a href="Registro.html" class="btn-register" id="btnRegister">
+        <i class="fa-solid fa-user-plus"></i>
+        Registrarse
+    </a>
+
+    <div class="user-menu" id="userMenu">
+        <button type="button" class="user-trigger" id="userIconBtn" aria-label="Mi cuenta">
+            <span class="user-avatar-icon">👤</span>
+
+            <span class="user-text">
+                <span class="user-greeting">
+                    Hola, <span id="userNombre"></span> 👋
+                </span>
+
+                <span class="user-email" id="userEmail"></span>
+            </span>
+
+            <span class="user-caret">▾</span>
+        </button>
+
+        <div class="user-dropdown" id="userDropdown">
+            <a href="#" class="user-dropdown-item" id="btnLogout">
+                Cerrar sesión
+            </a>
+        </div>
+    </div>
+
+</div>
+
+</div>
+        
+
+</div>
+</header>   
+
+<!-- HERO BANNER -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-eyebrow">Nueva Temporada</div>
+        <h1 class="hero-title">
+            NUEVA COLECCIÓN
+            <span class="year">2025</span>
+        </h1>
+        <p class="hero-subtitle">Estilo que define tendencia. Calidad que te acompaña.</p>
+        <a href="#coleccion" class="btn-hero">Descubrir ahora ›</a>
+
+        <div class="hero-badges">
+            <div class="badge">
+                <span class="badge-icon">🚚</span>
+                <div class="badge-text">
+                    <strong>Envíos rápidos</strong>
+                    <span>24-48h a todo el país</span>
+                </div>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">🏅</span>
+                <div class="badge-text">
+                    <strong>Calidad garantizada</strong>
+                    <span>Prendas seleccionadas</span>
+                </div>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">🔒</span>
+                <div class="badge-text">
+                    <strong>Pago seguro</strong>
+                    <span>Compra 100% protegida</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARRUSEL HERO -->
+    <div class="hero-carousel">
+        <div class="carousel-track">
+            <img class="carousel-slide active" src="../assets/img1.jpg" alt="Estilo Urbano">
+            <img class="carousel-slide" src="../assets/img2.jpg" alt="R10 Classic">
+            <img class="carousel-slide" src="../assets/img3.jpg" alt="LM10 Modern">
+            <img class="carousel-slide" src="../assets/img4.jpg" alt="NJR Street">
+            <img class="carousel-slide" src="../assets/img5.jpg" alt="KM7 Speed">
+            <img class="carousel-slide" src="../assets/img6.jpg" alt="KM7 Gold">
+        </div>
+        <button class="carousel-btn prev" id="btn-prev">&#8249;</button>
+        <button class="carousel-btn next" id="btn-next">&#8250;</button>
+        <div class="carousel-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+            <span class="dot" data-index="4"></span>
+            <span class="dot" data-index="5"></span>
+        </div>
+    </div>
+</section>
+
+<!-- COLECCIÓN DESTACADA -->
+<main id="coleccion">
+    <div class="section-header">
+        <h2>COLECCIÓN DESTACADA</h2>
+        <div class="section-divider">♥</div>
+    </div>
+
+    <section class="galeria" id="galeriaProductos">
+        <p class="aviso-catalogo-vacio">Cargando colección...</p>
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <strong class="footer-logo">FASHION<em>Style</em></strong>
+            <p>Tu estilo, tu actitud. Descubre prendas únicas para momentos inolvidables.</p>
+            <div class="social-icons">
+                <a href="#">📷</a>
+                <a href="#">📘</a>
+                <a href="#">🎵</a>
+                <a href="#">📌</a>
+            </div>
+        </div>
+
+        <div>
+            <h4>Información</h4>
+            <ul>
+                <li><a href="#">Nosotros</a></li>
+                <li><a href="#">Envíos y entregas</a></li>
+                <li><a href="#">Cambios y devoluciones</a></li>
+                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="#">Política de privacidad</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Ayuda</h4>
+            <ul>
+                <li><a href="#">Preguntas frecuentes</a></li>
+                <li><a href="#">Guía de tallas</a></li>
+                <li><a href="#">Métodos de pago</a></li>
+                <li><a href="mailto:FASHIONSTYLE@GMAIL.COM">Contacto</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Suscríbete</h4>
+            <p class="newsletter-desc">Recibe novedades y ofertas exclusivas.</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Tu correo electrónico">
+                <button>➤</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 Fashion Style. Todos los derechos reservados. <span>♥</span>
+    </div>
+</footer>
+
+<script src="../JS/cartStorage.js"></script>
+<script src="../JS/m    iniCarrito.js"></script>
+<script src="../JS/catalogoPublico.js"></script>
+<script src="../JS/ProductoDetalle.js"></script>
+<script src="../JS/sesion.js"></script>
+<script src="../JS/asistente-ia.js?v=2"></script>
+
+</body>
+</html>

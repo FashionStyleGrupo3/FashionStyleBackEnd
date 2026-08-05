@@ -1,0 +1,328 @@
+/* =====================================================
+   Login.CSS  —  Estilos exclusivos de la página login
+   Depende de Style.CSS para: fuente Montserrat, colores
+   deeppink, header base y footer base.
+   ===================================================== */
+
+/* ══ BOTÓN INICIO (sobreescribe el base de Style.CSS) ══ */
+.btn-inicio {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    color: #111;
+    font-size: 13px;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+.btn-inicio i {
+    color: deeppink;
+    font-size: 15px;
+}
+.btn-inicio:hover { color: deeppink; }
+
+/* ══ FONDO CON IMAGEN DE MALL ══ */
+.page-bg {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px 40px;
+    gap: 36px;
+    overflow: hidden;
+    /* min-height para que ocupe toda la pantalla entre header y footer */
+    min-height: calc(100vh - 70px - 53px);
+}
+
+/*
+ * IMAGEN DE FONDO
+ * Es la misma que tienes en #coleccion dentro de Style.CSS:
+ * url("https://img.freepik.com/foto-gratis/abstracto-borroso-centro-comercial_1203-8771.jpg")
+ * Si usas ruta local cámbiala aquí, ej: url('../assets/fondo-mall.jpg')
+ */
+.page-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("https://img.freepik.com/foto-gratis/abstracto-borroso-centro-comercial_1203-8771.jpg");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+/* Capa rosada semitransparente (efecto de la imagen de referencia) */
+.page-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(248, 232, 230, 0.62);
+    z-index: 1;
+}
+
+/* Todo lo que esté dentro de .page-bg por encima de las capas */
+.page-bg > * { position: relative; z-index: 2; }
+
+/* ══ MARCA DE AGUA "FASHION STYLE" ══ */
+.watermark {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(60px, 10vw, 110px);
+    font-weight: 900;
+    color: rgba(255, 20, 147, 0.07);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* ══ TARJETA LOGIN ══ */
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 46px 42px 38px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Ícono usuario — círculo rosa claro */
+.avatar-icon {
+    width: 64px;
+    height: 64px;
+    background: #fff0f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    font-size: 26px;
+    color: deeppink;
+}
+
+.login-card h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #999;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 32px;
+}
+
+/* Labels */
+.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 7px;
+}
+
+/* Input con ícono a la izquierda */
+.input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-wrapper .field-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 13px 42px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #111;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.input-wrapper input::placeholder { color: #bbb; }
+
+.input-wrapper input:focus {
+    border-color: deeppink;
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.10);
+}
+
+/* Ojo — mostrar/ocultar contraseña */
+.toggle-pw {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 14px;
+    padding: 0;
+    transition: color 0.2s;
+}
+.toggle-pw:hover { color: deeppink; }
+
+/* Recordarme + ¿Olvidaste? */
+.form-extras {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+    font-size: 12px;
+}
+
+.remember-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #555;
+    font-weight: 500;
+}
+.remember-label input[type="checkbox"] {
+    accent-color: deeppink;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.forgot-link {
+    color: deeppink;
+    text-decoration: none;
+    font-weight: 700;
+    transition: opacity 0.2s;
+}
+.forgot-link:hover { opacity: 0.7; }
+
+/* Botón Ingresar */
+.btn-ingresar {
+    width: 100%;
+    padding: 14px;
+    background: deeppink;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.15s;
+    margin-bottom: 20px;
+}
+.btn-ingresar:hover {
+    background: #e0006b;
+    transform: translateY(-1px);
+}
+.btn-ingresar:active { transform: translateY(0); }
+
+/* Divisor "¿No tienes cuenta?" */
+.form-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 500;
+}
+.form-divider::before,
+.form-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+/* Botón Regístrate — outline */
+.btn-registrar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px;
+    background: #fff;
+    color: deeppink;
+    border: 1.5px solid deeppink;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-registrar:hover {
+    background: deeppink;
+    color: #fff;
+}
+
+/* ══ TRUST BAR ══ */
+.trust-bar {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.trust-icon-wrap {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: deeppink;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.trust-text strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+}
+.trust-text span {
+    font-size: 12px;
+    color: #444;
+    font-weight: 400;
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 520px) {
+    .login-card { padding: 32px 22px 28px; }
+    .trust-bar { gap: 24px; }
+    .watermark { display: none; }
+}
