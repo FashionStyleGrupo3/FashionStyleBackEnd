@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Inventario;
 use App\Models\Producto;
@@ -154,3 +155,25 @@ class InventarioFactory extends Factory
         });
     }
 }
+=======
+use App\Models\Inventario;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Inventario>
+ */
+class InventarioFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            //
+        ];
+    }
+}
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab

@@ -17,11 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         
         $this->call([
+<<<<<<< HEAD
             InventarioSeeder::class,
         ]);
 
 
         $this->call([
+=======
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
             RoleSeeder::class,
         ]);
 

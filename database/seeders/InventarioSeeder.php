@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+<<<<<<< HEAD
 use App\Models\Inventario;
 use App\Models\Producto;
 use App\Models\MateriaPrima;
@@ -265,3 +266,16 @@ class InventarioSeeder extends Seeder
         $this->command->info(' Usuarios creados: ' . User::count());
     }
 }
+=======
+
+class InventarioSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+    }
+}
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab

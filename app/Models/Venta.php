@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -207,5 +208,40 @@ class Venta extends Model
     public function getResumenAttribute(): string
     {
         return "Venta #{$this->Numero_Comprobante} - {$this->getEstadoTextoAttribute()} - {$this->getMontoTotalFormateadoAttribute()}";
+=======
+
+class Venta extends Model
+{
+    /** @use HasFactory<\Database\Factories\VentaFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'numero_comprobante',
+        'pedido_id',
+        'usuario_id',
+        'descripcion',
+        'categoria',
+        'notas',
+        'fecha_venta',
+        'monto_total',
+        'medio_pago',
+        'estado',
+        'cancelada',
+    ];
+
+    public function pedido()
+    {
+        return $this->belongsTo(Pedido::class, 'pedido_id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'usuario_id', 'id_usuario');
+    }
+
+    public function detalles()
+    {
+        return $this->hasMany(DetalleVenta::class, 'venta_id');
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
     }
 }

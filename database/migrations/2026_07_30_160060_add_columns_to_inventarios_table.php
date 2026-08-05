@@ -10,7 +10,11 @@ return new class extends Migration
     {
         Schema::table('inventarios', function (Blueprint $table) {
             if (!Schema::hasColumn('inventarios', 'producto_id')) {
+<<<<<<< HEAD
                 $table->foreignId('producto_id')->nullable()->after('ID_Inventario')
+=======
+                $table->foreignId('producto_id')->nullable()->after('id')
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
                     ->constrained('productos', 'id_producto')->onDelete('set null');
             }
             if (!Schema::hasColumn('inventarios', 'usuario_id')) {

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\ProductoController;
 use App\Http\Controllers\api\ClienteController;
@@ -27,6 +28,22 @@ Route::put('/inventario/{id}', [InventarioController::class, 'update']);     // 
 Route::delete('/inventario/{id}', [InventarioController::class, 'destroy']); // DELETE - Eliminar
 Route::get('/inventario/resumen', [InventarioController::class, 'resumen']); // GET - Resumen
 Route::get('/inventario/tipo/{tipo}', [InventarioController::class, 'porTipo']); // GET - Por tipo
+=======
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PromocionController;
+use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VentaController;
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -44,7 +61,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::post('/usuarios/{id}/asignar-rol', function (Request $request, $id) {
             $request->validate([
+<<<<<<< HEAD
                 'rol' => 'required|string|exists:roles,name'
+=======
+                'rol' => 'required|string|exists:roles,name',
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
             ]);
 
             $user = App\Models\User::findOrFail($id);
@@ -57,6 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {
             ];
         });
     });
+<<<<<<< HEAD
 
 
     // Ver el carrito y sus detalles (Research / Retrieve)
@@ -71,6 +93,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Eliminar un producto específico del carrito (Delete)
     Route::delete('/detalle-carrito/{id}', [DetalleCarritoController::class, 'destroy']);
     
+=======
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
 });
 
 Route::apiResource('productos', ProductoController::class);
@@ -82,6 +106,7 @@ Route::apiResource('pedidos', PedidoController::class);
 Route::apiResource('promociones', PromocionController::class);
 Route::apiResource('proveedores', ProveedorController::class);
 Route::apiResource('usuarios', UsuarioController::class);
+<<<<<<< HEAD
 Route::apiResource('ventas', VentaController::class);
 Route::apiResource('detalle-ventas', DetalleVentaController::class);
 Route::get('detalle-ventas/por-venta/{ventaId}', [DetalleVentaController::class, 'porVenta']);
@@ -90,3 +115,6 @@ Route::get('detalle-ventas/resumen', [DetalleVentaController::class, 'resumen'])
 // Rutas públicas
 Route::apiResource('productos', ProductoController::class);
 
+=======
+Route::apiResource('ventas', VentaController::class);
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab

@@ -10,14 +10,22 @@ return new class extends Migration
     {
         Schema::table('ventas', function (Blueprint $table) {
             if (!Schema::hasColumn('ventas', 'numero_comprobante')) {
+<<<<<<< HEAD
                 $table->string('numero_comprobante', 30)->unique()->after('ID_Venta');
+=======
+                $table->string('numero_comprobante', 30)->unique()->after('id');
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
             }
             if (!Schema::hasColumn('ventas', 'pedido_id')) {
                 $table->foreignId('pedido_id')->nullable()->unique()->after('numero_comprobante')
                     ->constrained('pedidos', 'id')->onDelete('restrict');
             }
             if (!Schema::hasColumn('ventas', 'usuario_id')) {
+<<<<<<< HEAD
                 $table->foreignId('usuario_id')->nullable()->after('pedido_id')
+=======
+                $table->foreignId('usuario_id')->after('pedido_id')
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
                     ->constrained('usuarios', 'id_usuario')->onDelete('restrict');
             }
             if (!Schema::hasColumn('ventas', 'descripcion')) {

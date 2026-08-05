@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Inventario extends Model
@@ -17,6 +18,16 @@ class Inventario extends Model
     protected $fillable = [
         'producto_id',
         'materia_prima_id',
+=======
+
+class Inventario extends Model
+{
+    /** @use HasFactory<\Database\Factories\InventarioFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'producto_id',
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
         'usuario_id',
         'tipo_movimiento',
         'concepto',
@@ -27,6 +38,7 @@ class Inventario extends Model
         'costo_total',
         'estado',
         'diferencia',
+<<<<<<< HEAD
 ];
 
     protected $casts = [
@@ -73,4 +85,17 @@ class Inventario extends Model
     }
 
     
+=======
+    ];
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id', 'id_producto');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'usuario_id', 'id_usuario');
+    }
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
 }

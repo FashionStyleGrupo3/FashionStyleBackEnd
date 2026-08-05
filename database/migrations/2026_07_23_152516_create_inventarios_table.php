@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+<<<<<<< HEAD
     public function up(): void
     {
         Schema::create('inventarios', function (Blueprint $table) {
@@ -38,8 +39,28 @@ return new class extends Migration
         });
     }
 
+=======
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('inventarios', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
     public function down(): void
     {
         Schema::dropIfExists('inventarios');
     }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> a0ccae56a2448c859b8df04148bb599b4068acab
