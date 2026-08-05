@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Producto;
 use App\Models\ProductoImagen;
@@ -70,7 +70,7 @@ class ProductoController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         try {
             $producto = Producto::with(['categoria', 'catalogo', 'variantes', 'imagenes'])
@@ -88,7 +88,7 @@ class ProductoController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         try {
             $producto = Producto::findOrFail($id);
@@ -118,7 +118,7 @@ class ProductoController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
             $producto = Producto::findOrFail($id);
@@ -135,11 +135,16 @@ class ProductoController extends Controller
                 'message' => 'Producto eliminado correctamente'
             ]);
         }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar producto: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
-   
 
-    public function storeVariante(Request $request, $productoId)
+    public function storeVariante(Request $request, int $productoId)
     {
         $producto = Producto::findOrFail($productoId);
 
@@ -155,7 +160,7 @@ class ProductoController extends Controller
         return response()->json($variante, 201);
     }
 
-    public function updateVariante(Request $request, $varianteId)
+    public function updateVariante(Request $request, int $varianteId)
     {
         $variante = ProductoVariante::findOrFail($varianteId);
 
@@ -171,7 +176,7 @@ class ProductoController extends Controller
         return response()->json($variante);
     }
 
-    public function destroyVariante($varianteId)
+    public function destroyVariante(int $varianteId)
     {
         ProductoVariante::findOrFail($varianteId)->delete();
 
@@ -179,7 +184,7 @@ class ProductoController extends Controller
     }
 
 
-    public function storeImagen(Request $request, $productoId)
+    public function storeImagen(Request $request, int $productoId)
     {
         $producto = Producto::findOrFail($productoId);
 
@@ -202,7 +207,7 @@ class ProductoController extends Controller
         return response()->json($imagen, 201);
     }
 
-    public function destroyImagen($imagenId)
+    public function destroyImagen(int $imagenId)
     {
         $imagen = ProductoImagen::findOrFail($imagenId);
 

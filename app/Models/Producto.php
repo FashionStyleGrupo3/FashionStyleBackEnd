@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @property int $id_producto
+ * @property float $precio
+ */
 class Producto extends Model
 {
     protected $table = 'productos';

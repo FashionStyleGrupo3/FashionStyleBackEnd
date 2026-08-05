@@ -2,17 +2,17 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\CatalogoController;
-use App\Http\Controllers\PedidoController;
-use App\Http\Controllers\PromocionController;
-use App\Http\Controllers\ProveedorController;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\InventarioController;
-use App\Http\Controllers\VentaController;
+use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\ProductoController;
+use App\Http\Controllers\api\ClienteController;
+use App\Http\Controllers\api\CategoriaController;
+use App\Http\Controllers\api\CatalogoController;
+use App\Http\Controllers\api\PedidoController;
+use App\Http\Controllers\api\PromocionController;
+use App\Http\Controllers\api\ProveedorController;
+use App\Http\Controllers\api\UsuarioController;
+use App\Http\Controllers\api\InventarioController;
+use App\Http\Controllers\api\VentaController;
 use App\Http\Controllers\api\CarritoController;
 use App\Http\Controllers\api\DetalleCarritoController;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Venta;
 use App\Models\DetalleVenta;
@@ -99,6 +99,7 @@ class VentaController extends Controller
             foreach ($detallesData as $detalle) {
                 $detalle['ID_Venta'] = $venta->ID_Venta;
                 DetalleVenta::create($detalle);
+            
             }
 
             DB::commit();
@@ -121,7 +122,7 @@ class VentaController extends Controller
     /**
      * Display the specified sale.
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
             $venta = Venta::with(['usuario', 'detalles.producto'])
@@ -150,7 +151,7 @@ class VentaController extends Controller
     /**
      * Cancel a sale.
      */
-    public function cancelar($id)
+    public function cancelar(int $id)
     {
         try {
             $venta = Venta::find($id);

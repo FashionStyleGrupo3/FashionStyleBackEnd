@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,12 +32,12 @@ class UsuarioController extends Controller
         return response()->json($usuario, 201);
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         return User::findOrFail($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $usuario = User::findOrFail($id);
 
@@ -60,7 +60,7 @@ class UsuarioController extends Controller
         return response()->json($usuario);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $usuario = User::findOrFail($id);
         $usuario->delete();

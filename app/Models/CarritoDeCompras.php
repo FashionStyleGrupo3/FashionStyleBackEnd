@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+
+/** 
+ * @property int $id
+ * @property int $usuario_id
+ * @property string $estado
+ */
 class CarritoDeCompras extends Model
 {
     // Include SoftDeletes if you added it to your migration
@@ -54,6 +60,6 @@ class CarritoDeCompras extends Model
      */
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->belongsTo(User::class, 'usuario_id');
     }
 }

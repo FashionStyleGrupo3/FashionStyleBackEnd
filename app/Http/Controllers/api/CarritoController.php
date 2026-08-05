@@ -3,7 +3,7 @@
 // Andres Mauricio Carvajal Vera 30/07/2026
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\api\Controller;
 use App\Models\CarritoDeCompras;
 use App\Models\DetalleCarrito;
 use App\Models\Producto;
@@ -22,7 +22,6 @@ class CarritoController extends Controller
                 ['usuario_id' => $request->user()->id, 'estado' => 'Created'],
                 ['total' => 0]
             );
-
         return response()->json([
             'success' => true,
             'carrito' => $carrito
@@ -51,7 +50,6 @@ class CarritoController extends Controller
             ->where('producto_id', $request->producto_id)
             ->where('producto_variante_id', $request->producto_variante_id)
             ->first();
-
         // Get the product price
         $producto = Producto::find($request->producto_id);
         $precio = $producto->precio; // Adjust this if price comes from the variant
@@ -82,7 +80,7 @@ class CarritoController extends Controller
     /**
      * Remove a specific item from the cart (Delete).
      */
-    public function destroy(Request $request, $detalle_id)
+    public function destroy(Request $request, int $detalle_id)
     {
         $carrito = CarritoDeCompras::where('usuario_id', $request->user()->id)
             ->where('estado', 'Created')

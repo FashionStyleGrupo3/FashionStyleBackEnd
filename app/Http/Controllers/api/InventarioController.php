@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class InventarioController extends Controller
 {
@@ -61,6 +62,7 @@ class InventarioController extends Controller
                 ], 422);
             }
 
+
             $validated['usuario_id'] = auth()->id() ?? 1;
             $validated['fecha_registro'] = now();
 
@@ -87,7 +89,7 @@ class InventarioController extends Controller
     /**
      * Display the specified inventory movement.
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
             $movimiento = Inventario::with(['producto', 'materiaPrima', 'usuario'])
@@ -116,7 +118,7 @@ class InventarioController extends Controller
     /**
      * Update the specified inventory movement.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         try {
             $movimiento = Inventario::find($id);
@@ -165,7 +167,7 @@ class InventarioController extends Controller
     /**
      * Remove the specified inventory movement.
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
             $movimiento = Inventario::find($id);
@@ -227,7 +229,7 @@ class InventarioController extends Controller
     /**
      * Get inventory movements by type.
      */
-    public function porTipo($tipo)
+    public function porTipo(string $tipo)
     {
         try {
             if (!in_array($tipo, ['entrada', 'salida', 'ajuste'])) {

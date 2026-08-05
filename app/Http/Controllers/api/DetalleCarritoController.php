@@ -2,7 +2,7 @@
 // Andres Mauricio Carvajal Vera
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\api\Controller;
 use App\Models\DetalleCarrito;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ class DetalleCarritoController extends Controller
     /**
      * Update the quantity of a specific item already in the cart.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $request->validate([
             'cantidad' => 'required|integer|min:1'
@@ -46,7 +46,7 @@ class DetalleCarritoController extends Controller
      * Remove a specific item from the cart directly via its ID.
      * (You can use this instead of the destroy method in CarritoController).
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, int $id)
     {
         $detalle = DetalleCarrito::with('carrito')->findOrFail($id);
 
@@ -75,7 +75,7 @@ class DetalleCarritoController extends Controller
     /**
      * Helper function to recalculate the total price of the main cart.
      */
-    private function updateCartTotal($carrito)
+    private function updateCartTotal(DetalleCarrito $carrito)
     {
         $total = $carrito->detalles()->get()->sum(function ($item) {
             return $item->precio * $item->cantidad;

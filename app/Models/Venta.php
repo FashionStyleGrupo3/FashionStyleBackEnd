@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\DetalleVenta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -75,7 +76,7 @@ class Venta extends Model
     /**
      * Scope to filter by status.
      */
-    public function scopeEstado($query, $estado)
+  public function scopePorEstado(Builder $query, string $estado)
     {
         return $query->where('Estado', $estado);
     }
@@ -83,7 +84,7 @@ class Venta extends Model
     /**
      * Scope to filter by payment method.
      */
-    public function scopeMedioPago($query, $medio)
+    public function scopeMedioPago(Builder $query, string $medio)
     {
         return $query->where('Medio_Pago', $medio);
     }
@@ -91,7 +92,7 @@ class Venta extends Model
     /**
      * Scope to filter by date range.
      */
-    public function scopeFechaEntre($query, $fechaInicio, $fechaFin)
+    public function scopeFechaEntre(Builder $query, $fechaInicio, $fechaFin)
     {
         return $query->whereBetween('Fecha_Venta', [$fechaInicio, $fechaFin]);
     }
@@ -99,7 +100,7 @@ class Venta extends Model
     /**
      * Scope to get only active sales (not canceled).
      */
-    public function scopeActivas($query)
+    public function scopeActivas(Builder $query)
     {
         return $query->where('Cancelada', false);
     }
@@ -107,7 +108,7 @@ class Venta extends Model
     /**
      * Scope to get canceled sales.
      */
-    public function scopeCanceladas($query)
+    public function scopeCanceladas(Builder $query)
     {
         return $query->where('Cancelada', true);
     }
@@ -115,7 +116,7 @@ class Venta extends Model
     /**
      * Scope to filter by category.
      */
-    public function scopeCategoria($query, $categoria)
+    public function scopeCategoria(Builder $query, string $categoria)
     {
         return $query->where('Categoria', $categoria);
     }

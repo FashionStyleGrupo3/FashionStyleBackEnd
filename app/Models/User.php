@@ -17,7 +17,7 @@ class User extends Authenticatable
 
     protected $guard_name = 'web';
 
-    const UPDATED_AT = null;
+    public const UPDATED_AT = null;
     public function getAuthPasswordName()
     {
         return 'password_hash';
